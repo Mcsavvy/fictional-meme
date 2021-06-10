@@ -1,0 +1,94 @@
+{% extends 'layouts.html' %} {% load static %} {% block head %}
+<title>Home::NorthPoint</title>
+<meta
+  name="description"
+  content="A one-stop store for all your sound needs."
+/>
+<meta
+  name="keywords"
+  content="NorthPoint, Sound gears, sound equipments"
+/>
+{% endblock %}
+{% block fabs %}
+{% include 'partials/_index-fabs.html' %}
+{% endblock %}
+{% block content %}
+<div class="container my-3" id="f-slide">
+  <div id="featured-products">
+    <div class="d-flex bg-ba justify-content-between">
+      <button class="btn btn-sm btn-link float-left"
+      {% if featured.slide > 1 %}
+      onclick="$('#f-slide').load('/?fslide={{featured.slide|add:-1}} #featured-products')"
+      {% else %}
+      disabled
+      {% endif %}>
+        <i class="fas fa-arrow-left bg"></i>
+      </button>
+      <h5 class="my-2 bg text-center">Featured Products</h5>
+      <button class="btn btn-sm btn-link float-right"
+      {%if not featured%}disabled{%endif%}
+      onclick="$('#f-slide').load('/?fslide={{featured.slide|add:1}} #featured-products')">
+        <i class="fas fa-arrow-right bg"></i>
+      </button>
+    </div>
+    <br>
+    {% if is_mobile %}
+    <div class="container-fluid">
+      <div class="scrolling-wrapper row flex-row flex-nowrap">
+        {% for item in featured %}
+            {% include 'partials/_product-cards.html' %}
+        {% endfor %}
+      </div>
+    </div>
+    {% else %}
+    <div class="container-fluid">
+      <div class="row mt-4 justify-content-center">
+      {% for item in featured %}
+        {% include 'partials/_product-cards.html' %}
+      {% empty %}
+      {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="container my-3" id="t-slide">
+  <div id="top-products">
+    <div class="d-flex bg-ba justify-content-between">
+      <button class="btn btn-sm btn-link float-left"
+      {% if top_product.slide > 1 %}
+      onclick="$('#t-slide').load('/?tslide={{top_product.slide|add:-1}} #top-products')"
+      {% else %}
+      disabled
+      {% endif %}>
+        <i class="fas fa-arrow-left bg"></i>
+      </button>
+      <h5 class="my-2 bg text-center">Top Products</h5>
+      <button class="btn btn-sm btn-link float-right"
+      {%if not top_product%}disabled{%endif%}
+      onclick="$('#t-slide').load('/?tslide={{top_product.slide|add:1}} #top-products')">
+        <i class="fas fa-arrow-right bg"></i>
+      </button>
+    </div>
+    <br>
+    {% if is_mobile %}
+    <div class="container-fluid">
+      <div class="scrolling-wrapper row flex-row flex-nowrap">
+        {% for item in top_product %}
+            {% include 'partials/_product-cards.html' %}
+        {% endfor %}
+      </div>
+    </div>
+    {% else %}
+    <div class="container-fluid">
+      <div class="row mt-4 justify-content-center">
+      {% for item in top_product %}
+        {% include 'partials/_product-cards.html' %}
+      {% empty %}
+      {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

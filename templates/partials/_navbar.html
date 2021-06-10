@@ -1,0 +1,92 @@
+{% load theme %}
+{% load static %}
+{% load user_agents %}
+{% load cache %}
+{% cache 3600 navbar %}
+<div class="bg-bg">
+  <div class="d-flex justify-content-between align-items-center">
+    <a href="/" id="favicon"
+     class="hover-zoom">
+      <img src="{% static 'img/favicon.png' %}"
+      alt="<strong class='svg lt-sc'>𝕊𝕆𝔸ℝ 𝕋𝔼ℂℍ</strong>" height="80" loading="lazy" class="">
+    </a>
+    <button type="button" class="btn btn-link ba" data-toggle="modal" data-target="#search-modal">
+      <icon class="fas fa-search stroke-ba-1"></icon>
+    </button>
+    <a class="ba" title="Coupons" type="button" data-toggle="dropdown" aria-haspopup="true"
+    aria-expanded="false">
+      <icon class="fas fa-ticket-alt fa-rotate-90 stroke-ba-1"></icon>
+      <span class="badge badge-notification rounded-pill bg bg-ab" id="coupons">
+        <i id="coupon_counter">{{available_coupons|length}}</i>
+      </span>
+    </a>
+    <ul class="dropdown-menu bg-glass bd-ba-1" style="padding: 10px">
+
+      {% for coupon in available_coupons %}
+        <li class="container bd-gb-2 bg-lt text-primary clipboard-object my-1" data-clipboard-text="{{coupon.code}}" data-clipboard-toast="coupon code has been copied to your clipboard" style="text-transform: uppercase;">
+         get {{coupon.discount|floatformat:0}}% off any order!
+          </i>
+        </li>
+      {% endfor %}
+    </ul>
+    <a href="{% url 'dash' %}" class="ba" title="Notifications">
+      <icon class="fas fa-bell {% if has_notification %}ring{% endif %} ring stroke-ba-1"></icon>
+      <span class="badge badge-notification rounded-pill bg bg-ab" id="notification">
+        <i id="notification_counter">{{notifications|length}}</i>
+      </span>
+    </a>
+    <a href="{% url 'cart' %}" class="ba" title="Cart"id="shopping-cart"> 
+      <icon class="fas fa-shopping-cart stroke-ba-1"></icon>
+      <span class="badge rounded-pill badge-notification bg bg-ab" id="cart-count"><i id="cart-counter">{{cart_count}}</i></span>
+    </a>
+    <a href="{% url 'wishlist' %}" class="ba mr-4" title="Wishlist" id="wishlist"> 
+      <icon class="fas fa-heartbeat stroke-ba-1"></icon> 
+      <span class="badge rounded-pill badge-notification bg bg-ab" id="wish-count">
+        <i id="wish-counter">{{wish_count}}</i>
+      </span>
+    </a>
+  </div>
+  <div class="container-md mb-3">
+    <ul class="nav nav-tabs url--menu hide">
+      <li class="nav-item">
+        <a href="/" class="nav-link url--item">
+          Home
+        </a>
+      </li>
+      {% if user.is_authenticated %}
+      <li class="nav-item">
+        <a href="{% url 'cart' %}" class="nav-link url--item">
+          Cart
+        </a>
+      </li>
+      <li class="nav-item" aria-current="page">
+        <a href="{% url 'shop' %}" class="nav-link url--item">
+          Shop
+        </a>
+      </li>
+      <li class="nav-item" aria-current="page">
+        <a href="{% url 'wishlist' %}" class="nav-link url--item">
+          Wishlist
+        </a>
+      </li>
+      <li class="nav-item" aria-current="page">
+        <a href="{% url 'dash' %}" class="nav-link url--item">
+          Dashboard
+        </a>
+      </li>
+      <li class="nav-item" aria-current="page">
+        <a href="{% url 'logout' %}" class="nav-link url--item">
+          Logout
+        </a>
+      </li>
+      {% else %}
+      <li class="nav-item" aria-current="page">
+        <a href="{% url 'auth' %}" class="nav-link url--item">
+          Login or Signup
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+</div>
+{% endcache %}

@@ -1,0 +1,54 @@
+{% load static %}
+{% load theme %}
+<!DOCTYPE html>
+<html lang="en" id="{% if is_mobile %}mobile{% else %}not-mobile{% endif %}">
+  {% include 'head.html' %}
+  <body class="bg-bg">
+    <header class="">
+      {% include 'partials/_navbar.html' %}
+      {% block search %}
+      {% include 'partials/_search-modal.html' %}
+      {% endblock %}
+    </header>
+    {% if user.is_authenticated %}
+    <section class="container-md">
+      {% include 'partials/_banner.html' %}
+    </section> 
+    {% endif %}
+    <main style="min-height: 25cm">
+    	{% block content %}{% endblock %}
+    </main>
+    <br><br>
+    <footer>
+      {% block fab_menu %}
+      <div class="fixed-bottom text-right floating-action-menu" style="bottom: 10px; right: 10px;">
+        <div class="action-menu">
+          {% block fabs %}
+          {% endblock fabs %}
+        </div>
+        <div class="d-block action-button">
+          <button class="btn btn-lg btn-floating btn-outline-secondary fab" onclick="handleFab(this)">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+      </div>
+      {% endblock %}
+      {% include 'partials/_footer.html' %}
+    </footer>
+  </body>
+  <style type="text/css">
+    {% if is_mobile %}
+    {% else %}
+    {% endif %}
+    {{style|safe}}
+  </style>
+  <script type="text/javascript">
+    {% if is_mobile %}
+      $("*").on("hover", function(){
+        event.preventDefault();
+      })
+    {% else %}
+    {% endif %}
+    {{script|safe}}
+  </script>
+</html>

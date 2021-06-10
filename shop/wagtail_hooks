@@ -1,0 +1,105 @@
+from wagtail.contrib.modeladmin.options import (
+    ModelAdmin,
+    ModelAdminGroup,
+    modeladmin_register
+)
+from . import models
+# Register your models here.
+
+
+class ProductAdmin(ModelAdmin):
+    model = models.Product
+    menu_icon = "snippet"
+    menu_order = 000
+    add_to_settings_menu = False
+    exclude_from_explorer = False
+    list_display = (
+        'id',
+        'name',
+        'price',
+        'discounted_price'
+    )
+    search_fields = ("name",)
+
+
+class CategoryAdmin(ModelAdmin):
+    model = models.Category
+    menu_label = "Categories"
+    menu_icon = "list-ol"
+    menu_order = 100
+    add_to_settings_menu = False
+    exclude_from_explorer = False
+    list_display = ['id', 'name']
+    search_fields = ("name",)
+
+
+class OrderItemAdmin(ModelAdmin):
+    model = models.OrderItem
+    menu_label = "Cart-Items"
+    menu_icon = "success"
+    menu_order = 200
+    add_to_settings_menu = False
+    exclude_from_explorer = False
+    search_fields = ("owner",)
+    list_display = ['id', 'owner', 'item', 'price', 'ordered']
+
+
+class OrderAdmin(ModelAdmin):
+    model = models.Order
+    menu_icon = "date"
+    menu_order = 300
+    add_to_settings_menu = False
+    exclude_from_explorer = False
+    search_fields = ("owner",)
+    list_display = ['id', 'owner', 'price', 'items_count', 'ref_code']
+
+
+class WishAdmin(ModelAdmin):
+    model = models.WishList
+    menu_label = "Wishes"
+    menu_icon = "pick"
+    menu_order = 400
+    add_to_settings_menu = False
+    exclude_from_explorer = False
+    search_fields = ("owner",)
+    list_display = ['id', 'owner', 'item']
+
+
+class CouponAdmin(ModelAdmin):
+    model = models.Coupon
+    menu_icon = "form"
+    menu_order = 500
+    add_to_settings_menu = False
+    exclude_from_explorer = False
+    list_display = ["id", "code", "applied", "usage"]
+
+
+class BannerAdmin(ModelAdmin):
+    model = models.Banner
+    menu_icon = "image"
+    menu_order = 500
+    add_to_settings_menu = False
+    exclude_from_explorer = False
+    list_display = ["id", "expired"]
+
+
+class BrandAdmin(ModelAdmin):
+    model = models.Brand
+    menu_icon = "grip"
+    menu_order = 500
+    add_to_settings_menu = False
+    exclude_from_explorer = False
+    list_display = ["id", "name"]
+
+
+class ShopGroup(ModelAdminGroup):
+    menu_label = "Shop"
+    menu_icon = "tag"
+    menu_order = 000
+    items = (
+        ProductAdmin, CategoryAdmin, OrderItemAdmin,
+        OrderAdmin, WishAdmin, BannerAdmin, BrandAdmin
+    )
+
+
+modeladmin_register(ShopGroup)

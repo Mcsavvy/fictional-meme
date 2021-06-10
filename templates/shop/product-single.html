@@ -1,0 +1,38 @@
+{% extends 'layouts.html' %} {% block head %}
+<meta name="description" content="{{product.description}}" />
+{% endblock head %} {% block content %}
+{% block fab_menu %}{% endblock %}
+<div class="container my-5">
+  <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6 col-xl-4">
+        {% with product as item %}
+          {% include 'partials/_single-cards.html' %}
+        {% endwith %}
+      </div>
+    </div>
+  <div class="container my-3">
+    <div class="section-header">
+      <h3 class="my-2 gb">You May Like</h3>
+      <div class="line my-2"></div>
+    </div>
+    {% if is_mobile %}
+    <div class="container-fluid">
+      <div class="scrolling-wrapper row flex-row flex-nowrap">
+        {% for item in products %}
+            {% include 'partials/_wish-cards.html' %}
+        {% endfor %}
+      </div>
+    </div>
+    {% else %}
+    <div class="container-fluid">
+      <div class="row mt-4 justify-content-center">
+      {% for item in products %}
+        {% include 'partials/_wish-cards.html' %}
+      {% empty %}
+      {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock content %}

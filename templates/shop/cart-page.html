@@ -1,0 +1,110 @@
+{% extends 'layouts.html' %} {% block head %}
+<title>DJ CART</title>
+{% endblock head %}
+{% block content %}
+{% load api %}
+{% load static %}
+{% if is_mobile %}
+<div class="container-fluid">
+  <legend class="text-center ba">Cart</legend>
+  {% for row in cart|grid:"5&&20??spillover=True&&fillempty=EMPTY" %}
+    {% if row %}
+      <div class="scrolling-wrapper row flex-row flex-nowrap">
+        {% for order in row %}
+          {% if order != 'EMPTY' %}
+            {% with order as item %}
+              {% include 'partials/_cart-cards.html' %}
+            {% endwith %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endfor %}
+  {% if not cart %}
+  <image src="{% static 'img/empty.svg' %}" class="w-100 ba">
+  {% else %}
+    <div class="d-flex justify-content-center">
+      <a href="{% url 'checkout' %}" class="btn bg-ba bg btn-rounded checkout-btn">
+        <span class="float-left ab mr-4">Total {{currency}}{{total|floatformat:2}}</span>
+        <span class="float-right">
+          Check out
+          <i class="fas fa-arrow-circle-right ab"></i>
+        </span>
+      </a>
+    </div>
+  {% endif %}
+</div>
+{% else %}
+<div class="container-fluid">
+  <legend class="text-center ba">Cart</legend>
+  <div class="row mt-4 justify-content-center">
+  {% for order in cart %}
+    {% with order as item %}
+      {% include 'partials/_cart-cards.html' %}
+    {% endwith %}
+  {% empty %}
+  {% endfor %}
+  </div>
+  {% if not cart %}
+  <image src="{% static 'img/empty.svg' %}" class="w-100 ba">
+  {% else %}
+    <div class="d-flex justify-content-center">
+      <a href="{% url 'checkout' %}" class="btn bg-ba bg btn-rounded checkout-btn">
+        <span class="float-left ab mr-4">Total {{currency}}{{total|floatformat:2}}</span>
+        <span class="float-right">
+          Check out
+          <i class="fas fa-arrow-circle-right ab"></i>
+        </span>
+      </a>
+    </div>
+  {% endif %}
+</div>
+{% endif %}
+<div class="container my-4">
+  <legend class="text-center ba">Orders</legend>
+  {% for order in orders %}
+    <div class="card bg-bg shadow bd-ba mb-2 bd-width-1">
+      <small class="ba clipboard-object" data-clipboard-text="{{order.ref_code}}">
+        <strong class="gb">Tracking ID </strong>
+        {{order.ref_code}}
+      </small><br>
+      <small class="ba">
+        <strong class="gb">Ordered</strong>
+        {{order.items.all|length}} item{{order.items.all|pluralize}}
+        <i class="text-muted">
+          {{order.order_date|timesince}} ago
+        </i>
+      </small>
+      <div class="my-2" id="{{order.ref_code}}-items">
+        <div class="ajax-wrapper">
+          <div class="d-flex justify-content-left">
+            {% for item in order.items.all %}
+            <btn class="btn btn-link" data-toggle="modal" data-target="#{{item.name}}">
+              <img class="rounded-circle bd-ba-1" src="{{item.image.url}}" alt="Generic placeholder image" style="height: 1cm; width: 1cm">
+            </btn>
+            {% include 'partials/_order-modal.html'%}
+            {% endfor %}
+          </div>        
+          <div class="mt-2" id="coupons-and-price--for-order-{{order.id}}">
+            <span class="float-left ba" style="">
+              You have applied {{order.get_coupons|length}} coupon{{order.get_coupons|pluralize}}
+            </span>
+            <span class="text-success float-right">
+              {{currency}}{{order.price|floatformat:2}}
+            </span>
+          </div>
+          <div class="input-group mt-4 w-100">
+            <input type="hidden" name="order_id" value="{{order.id}}">
+            <input type="text" class="form-control top-left-16 bottom-left-16 bd-ba bg-bg bd-width-1" placeholder="enter coupon code..." name="code">
+            <button class="btn bd-ba top-right-16 bottom-right-16 ba bd-width-1" type="button" container="#{{order.ref_code}}-items" id="{{order.ref_code}}--coupon-add-btn" url="{% url 'apply.coupon' %}" onclick="applyCoupon(this)">
+              Apply
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+  <image src="{% static 'img/empty.svg' %}" class="w-100 ba">
+  {% endfor %}
+</div>
+{% endblock %}

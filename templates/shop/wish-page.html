@@ -1,0 +1,42 @@
+{% extends 'layouts.html' %} {% block head %}
+<title>DJ Wishlist</title>
+{% endblock head %}
+{% load static %}
+{% block fabs %}
+{% load api %}
+{% include 'partials/_wish-fabs.html' %}
+{% endblock %}
+{% block content %}
+{% if is_mobile %}
+<div class="container-fluid mt-4">
+  {% for row in wishlist|grid:"5&&20??spillover=True&&fillempty=EMPTY" %}
+    {% if row %}
+      <div class="scrolling-wrapper row flex-row flex-nowrap">
+        {% for wish in row %}
+          {% if wish != 'EMPTY' %}
+            {% with wish.item as item %}
+              {% include 'partials/_wish-cards.html' %}
+            {% endwith %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endfor %}
+  {% if not wishlist %}
+    <image src="{% static 'img/empty.svg' %}" class="w-100 ba">
+  {% endif %}
+</div>
+{% else %}
+<div class="container-fluid mt-4">
+  <div class="row mt-4 justify-content-center">
+  {% for order in wishlist %}
+    {% with order.item as item %}
+      {% include 'partials/_wish-cards.html' %}
+    {% endwith %}
+  {% endfor %}
+  {% if not wishlist %}
+    <image src="{% static 'img/empty.svg' %}" class="w-100 ba">
+  {% endif %}
+</div>
+{% endif %}
+{% endblock content %}

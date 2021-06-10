@@ -1,0 +1,106 @@
+<!-- MOBILE -->
+{% load theme %}
+{% if is_mobile %}
+{% block mobile_clear_wishlist_fab %}
+<div class="floating-action" id="email-fab">
+  <a href="{% url 'wishlist.delete.all' %}" class="btn btn-floating fab-item">
+    <i class="fas fa-trash"></i>
+    <span class="fab-info">
+      clear wishlist
+    </span>
+  </a>
+</div>
+{% endblock %}{% block mobile_cart_all_fab %}
+<div class="floating-action" id="email-fab">
+  <a href="{% url 'wishlist.cart' %}" class="btn btn-floating fab-item">
+    <i class="fas fa-cart-plus"></i>
+    <span class="fab-info">
+      add all to cart
+    </span>
+  </a>
+</div>
+{% endblock %}{% block mobile_phone_fab %}
+<div class="floating-action" id="phone-fab">
+  <a href="tel:2348088792254" class="btn btn-floating fab-item">
+    <i class="fas fa-phone"></i>
+    <span class="fab-info">
+      place a call to us
+    </span>
+  </a>
+</div>
+{% endblock %}{% block mobile_email_fab %}
+<div class="floating-action" id="email-fab">
+  <a href="mailto:phishink5@gmail.com" class="btn btn-floating fab-item">
+    <i class="fas fa-envelope"></i>
+    <span class="fab-info">
+      send us an email
+    </span>
+  </a>
+</div>
+{% endblock %}{% block mobile_theme_fab %}
+{% if user.is_authenticated %}  
+<div id="theme-control" class="floating-action">
+  <div id="theme-toggler">
+    {% if user.username|get_theme:"dm" %}
+    <button class="btn btn-floating fab-item" onclick="lightMode()">
+      <i class="fas fa-sun"></i>
+      <span class="fab-info">
+        switch to lightmode
+      </span>
+    </button>
+    {% else %}
+    <button class="btn btn-floating fab-item" onclick="darkMode()">
+      <i class="fas fa-moon"></i>
+      <span class="fab-info">
+        switch to darkmode
+      </span>
+    </button>
+    {% endif %}
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+<!-- NOT MOBILE -->
+{% else %}
+{% block clear_wishlist_fab %}
+<div class="floating-action" id="email-fab">
+  <a href="{% url 'wishlist.delete.all' %}" class="btn btn-floating fab-item"  data-toggle="tooltip" data-placement="right" title="clear wishlist">
+    <i class="fas fa-trash"></i>
+  </a>
+</div>
+{% endblock %}{% block cart_all_fab %}
+<div class="floating-action" id="email-fab">
+  <a href="{% url 'wishlist.cart' %}" class="btn btn-floating fab-item"  data-toggle="tooltip" data-placement="right" title="add all to cart">
+    <i class="fas fa-cart-plus"></i>
+  </a>
+</div>
+{% endblock %}{% block phone_fab %}
+<div class="floating-action" id="phone-fab">
+  <a href="tel:2348088792254" class="btn btn-floating fab-item" data-toggle="tooltip" data-placement="right" title="customer service">
+    <i class="fas fa-phone"></i>
+  </a>
+</div>
+{% endblock %}{% block email_fab %}
+<div class="floating-action" id="email-fab">
+  <a href="mailto:phishink5@gmail.com" class="btn btn-floating fab-item" data-toggle="tooltip" data-placement="right" title="send us an email">
+    <i class="fas fa-envelope"></i>
+  </a>
+</div>
+{% endblock %}{% block theme_fab %}
+{% if user.is_authenticated %}  
+<div id="theme-control" class="floating-action">
+  <div id="theme-toggler">
+    {% if user.username|get_theme:"dm" %}
+    <button class="btn btn-floating fab-item" onclick="lightMode()" data-toggle="tooltip" data-placement="right" title="switch to lightmode">
+      <i class="fas fa-sun"></i>
+    </button>
+    {% else %}
+    <button class="btn btn-floating fab-item" onclick="darkMode()" data-toggle="tooltip" data-placement="right" title="switch to darkmode">
+      <i class="fas fa-moon"></i>
+    </button>
+    {% endif %}
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+{% endif %}

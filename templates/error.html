@@ -1,0 +1,53 @@
+{% extends 'layouts.html' %}
+{% block content %}
+{% block head %} {% endblock %}
+<div class="list-inline text-center">
+	<span class="list-inline-item gb font-weight-bold display-2">
+		{{name}}
+	</span>
+	<small class="text-muted list-inline-item">{{reason}}</small>
+</div>
+<div class="container">
+    <br>
+    <ul>
+    	{% for help in suggested %}
+    	<li>{{help}}</li>
+    	{% endfor %}
+		{% if not request.user.is_authenticated %}
+		<li class="pm">
+			You might need to login to gain access to this page.
+		</li>
+		{% endif %}
+	</ul>
+	{% if request.user.is_superuser %}
+	<button class="btn btn-lg bg-pm w-100 sc" onclick="$('#tracebacks').toggleClass('collapse')">
+		DEBUG 
+		<i class="fas fa-bug"></i>
+	</button>
+	<div class="container collapse text-left my-2" id="tracebacks">
+		<b class="text-warning my-2">
+			{{thrown}}
+		</b>
+		<li class="gb">{{info}}</li>
+		<ol>
+			{% for trace in tracebacks %}
+			<li class="text-info">{{trace}}</li>
+			{% empty %}
+			<p class="a">No tracebacks to show.</p>
+			{% endfor %}
+		</ol>
+		{% if tracebacks %}
+			<a href="{{request.path}}?no-err" class="badge bg-pm bg w-100 my-2">
+				Django Debug
+			</a>
+		{% endif %}
+	</div>
+	{% else %}
+	<p class="a font-weight-bold">
+		This error occurred while trying to retrieve <i>"{{request.path}}"</i>.<br>
+		If this error persists, <a href="#" class="b">contact us</a> to help fix the bug.
+	</p>
+	{% endif %}
+</div>
+<br>
+{% endblock %}

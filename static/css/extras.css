@@ -1,0 +1,361 @@
+.tooltip .arrow{
+	display: none
+}
+
+
+#mobile .scrolling-wrapper{
+	overflow-x: scroll;
+	overflow-y: clip;
+	display: flex;
+}
+
+select {
+  background-color: inherit;
+  display: block;
+}
+
+div.floating-action-menu > .action-menu {
+    visibility: hidden;
+    transform: translateY(65px);
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+
+    transition: all 300ms linear;
+}
+div.floating-action-menu.active > .action-menu {
+    visibility: visible;
+    transform: translate(0);
+    opacity: 1;
+    padding-bottom: 5px;
+    max-height: 1000px;
+}
+
+div.floating-action-menu > .action-menu > .floating-action {
+    padding-right: 0.45rem;
+}
+
+div.floating-action-menu > .action-menu .btn-floating,
+div.floating-action-menu > .action-menu .badge
+{
+    transform: scale(0.4);
+    transition: all 500ms ease-in-out;
+}
+div.floating-action-menu.active > .action-menu .btn-floating,
+div.floating-action-menu.active > .action-menu .badge
+{
+    transform: scale(1);
+}
+
+div.floating-action-menu > .action-button > .btn-floating {
+    transition: all 500ms linear;
+}
+
+div.floating-action-menu > .action-button > .btn-floating > i {
+    transition: transform 500ms ease-in-out;
+}
+div.floating-action-menu.active > .action-button > .btn-floating > i {
+    transform: rotate(-315deg);
+
+}
+
+.floating-action {
+  margin-top: 5px;
+}
+
+a:hover, a:focus, a:active{
+  color: var(--gb);
+  text-decoration: none
+}
+
+
+.btn-outline-secondary, .btn-outline-secondary:hover {
+  border-color: var(--ba);
+  color: var(--ba);
+}
+
+.input--menu-selected:after {
+  content: "\f058";
+  display: inline-block;
+}
+
+.input--menu-selected{
+  filter: brightness(80%)
+}
+
+.btn-link, .btn-link.active, .btn-link.active:focus, .btn-link.focus, .btn-link:active, .btn-link:active:focus, .btn-link:focus, .btn-link:hover{
+  background-color: transparent;
+  color: initial;
+}
+
+.ring {
+  animation: tada 1s;
+  animation-iteration-count:50;
+}
+
+.ring:hover, .ring:active, .ring:focus {
+  animation-play-state: paused
+}
+
+input, input:focus {
+  colour: var(--gb);
+  background: var(--bg);
+  border-color: var(--ba);
+}
+
+.fab, .fab:focus, .fab:hover {
+  border-color: var(--gb);
+  color: var(--ba);
+  background-color: var(--gb);
+}
+
+.fab-active, .fab-active:focus, .fab-active:hover {
+  border-color: var(--ba);
+  color: var(--ba);
+  background-color: var(--bg)  
+}
+
+.fab-info {
+  visibility: hidden;
+  background-color: transparent;
+  color: var(--dk-sc);
+  position: relative;
+  bottom: 1.8rem;
+  right: 2.7rem;
+  text-align: right
+}
+
+.fab-item {
+  background-color: var(--gb);
+  color: var(--ab);
+}
+
+.fab-info-active {
+  animation: none;
+  float: right;
+}
+
+.input--menu{
+  
+}
+
+.input--menu-selected{
+  color: var(--bg);
+  background-color: var(--ba)
+}
+
+.input--menu-selected:hover {
+  color: var(--ba);
+  background-color: var(--bg)
+}
+
+.url--menu {
+  background-color: transparent;
+  overflow-x: auto;
+  overflow-y: clip;
+}
+
+.url--item {
+  color: var(--ba) !important;
+  filter: brightness(0.8);
+  background-color: transparent !important;
+}
+
+.url--item.active {
+  color: var(--ba) !important;
+  filter: brightness(150%);
+  border-color: var(--gb) !important;
+}
+
+icon {
+  color: var(--ba);
+}
+
+#mobile .product-card {
+	text-align: center;
+	padding-right: 0;
+	padding-left: 0;
+	margin-bottom: 7px;
+	width: 13.75rem;
+}
+
+#mobile .product-card .card-body {
+	font-size: .8rem;
+	text-decoration: none;
+	color: var(--dk);
+	height: 4rem;
+	overflow: overlay;
+}
+
+#not-mobile .product-card{
+	text-align: center;
+	width: 13.75rem;
+	padding-right: 0;
+	padding-left: 0;
+	margin-bottom: 7px;
+}
+
+#not-mobile .product-card .card-body {
+	font-size: .8rem;
+	text-decoration: none;
+	color: var(--dk);
+	height: 5rem;
+}
+
+.product-action--info{
+	display: none;
+	color: var(--bg);
+	background-color: var(--ba);
+	font-family: sans-serif;
+}
+
+
+#mobile .product-action:hover{
+	color: var(--gb)
+}
+
+#not-mobile .product-action:hover{
+	color: var(--shadow)
+}
+
+#mobile .product-action a{
+	color: var(--bg);
+}
+
+#mobile .product-action a:hover{
+	color: var(--gb)
+}
+
+.xhide {
+	display: none;
+}
+
+.product-action{
+	background-color: transparent;
+	margin-top: 2px;
+	margin-left: 2px;
+	color: var(--bg);
+}
+
+.is--active{
+   color: var(--sc);
+   font-size: 1rem;
+}
+
+.is--inactive{
+	color: transparent;
+	font-size: 1rem;
+   -webkit-text-stroke-width: 1px;
+   -webkit-text-stroke-color: var(--sc);
+}
+
+.product-card:empty{
+	display: none;
+}
+
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 25px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: var(--ba);
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: var(--ba);
+  cursor: pointer;
+}
+
+/* The container */
+.check-box {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.check-box input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.check-box:hover input ~ .checkmark {
+  background-color: (var--shadow);
+}
+
+/* When the checkbox is checked, add a background */
+.check-box input:checked ~ .checkmark {
+  background-color: var(--ba);
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.check-box input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.check-box .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 7px;
+  border: solid var(--bg);
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.scrolling-wrapper:empty{
+	display:none;
+}

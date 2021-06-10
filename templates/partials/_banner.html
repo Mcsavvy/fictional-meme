@@ -1,0 +1,19 @@
+{% if banners %}
+<div id="banner-control" class="carousel slide bd-ba-1" data-ride="carousel">
+  <div class="carousel-inner">
+    {% for banner in banners %}
+      <div class="carousel-item {%if forloop.first%}active{%endif%}">
+        <img class="w-100 banner-img" src="{{banner.image.url}}" alt="{{banner.message}}">
+      </div>
+    {% endfor %}
+  </div>
+  <a class="carousel-control-prev ba" href="#banner-control" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#banner-control" role="button" data-slide="next">
+    <span class="carousel-control-next-icon ba" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+{% endif %}

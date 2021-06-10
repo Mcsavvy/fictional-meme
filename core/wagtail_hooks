@@ -1,0 +1,56 @@
+from wagtail.contrib.modeladmin.options import (
+    ModelAdmin,
+    ModelAdminGroup,
+    modeladmin_register
+)
+from . import models
+# Register your models here.
+
+
+class NodeAdmin(ModelAdmin):
+    model = models.Node
+    menu_icon = "snippet"
+    add_to_settings_menu = False
+    exclude_from_explorer = False
+    search_fields = ("user",)
+    list_display = ['id', 'user', 'theme']
+
+
+class ProfileAdmin(ModelAdmin):
+    model = models.Profile
+    menu_icon = "cogs"
+    add_to_settings_menu = False
+    exclude_from_explorer = False
+    search_fields = ("node",)
+    list_display = ['id', 'node', 'first_name', 'last_name']
+
+
+class AddressAndInfoAdmin(ModelAdmin):
+    model = models.AddressAndInfo
+    menu_icon = "date"
+    add_to_settings_menu = False
+    exclude_from_explorer = False
+    search_fields = ("node",)
+    list_display = ['id', 'node', 'city', 'country']
+
+
+class ThemeDisplay(ModelAdmin):
+    model = models.Theme
+    menu_icon = "radio-empty"
+    add_to_settings_menu = False
+    exclude_from_explorer = False
+    search_fields = ("name",)
+    list_display = ['id', 'name', 'dm', 'dk', 'lt', 'pm', 'sc']
+
+
+class Profile(ModelAdminGroup):
+    menu_label = "Profile"
+    menu_icon = "user"
+    menu_order = 700
+    items = (
+        NodeAdmin, ProfileAdmin,
+        AddressAndInfoAdmin, ThemeDisplay
+    )
+
+
+modeladmin_register(Profile)

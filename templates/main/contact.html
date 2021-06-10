@@ -1,0 +1,57 @@
+{% extends 'layouts.html' %} {% block head %}
+<title>Contact::NorthPoint</title>
+{% endblock head %} {% block content %}
+<style>
+    .contact{
+        width: 100%;
+        height: 85vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+  .contact-form {
+    width: 300px;
+  }
+  
+</style>
+<div class="container my-5">
+  <div class="contact">
+    <div class="card contact-form p-3 bg-pm">
+        <h4 class="text-center my-3 lt">we would reply via email</h4>
+        <form action="" method="POST">
+          {% csrf_token %}
+          <div class="form-group my-2">
+            <input
+              type="text"
+              name="name"
+              placeholder="Your name"
+              class="form-control btn-rounded"
+              value="{{user.username}}"
+            />
+          </div>
+          <div class="form-group my-2">
+            <input
+              type="email"
+              name="email"
+              placeholder="Your email"
+              class="form-control btn-rounded"
+              value="{{user.email}}"
+            />
+          </div>
+          <div class="from-group my-2">
+            <textarea
+              cols="25"
+              rows="3"
+              type="text"
+              name="message"
+              placeholder="say something..."
+              class="form-control"
+            ></textarea>
+          </div>
+          <button type="submit" class="btn bd-gb lt w-100 btn-rounded">Send</button>
+        </form>
+      </div>
+  </div>
+</div>
+{% endblock content %}

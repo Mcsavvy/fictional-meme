@@ -1,0 +1,67 @@
+{% include 'head.html' %}{% load static %}{% block head %}
+<title>{{title|default:'Authenticate'}}</title>
+{% endblock %} {% block content %}
+{% load cache %}
+{% cache None auth_form %}
+<link href="{%static 'css/auth_form.css'%}" rel="stylesheet">
+<script type="text/javascript">
+  function alert(){
+    toast("password not correct", "warning", 4000)
+  }
+</script>
+<style type="text/css">
+  body {
+    background-color: var(--dk)
+  }
+  .frame {
+    border-top-color: var(--dk)
+  }
+</style>
+<div class="container-fluid d-flex justify-content-center" id="auth">
+    <div class="frame bg-dk shadow-0">
+      <div class="row justify-content-center">
+        <img src="{% static 'img/favicon.png' %}" style="width:128px;height:100px;">
+      </div>
+        <div class="nav">
+            <ul class="links">
+                <li class="signin-active"><a class="btn control float-left xhide">Sign in</a></li>
+                <li class="signup-inactive"><a class="btn control float-left">Sign up </a></li>
+            </ul>
+        </div>
+        <div ng-app ng-init="checked = false">
+            <form class="form-signin" action="" method="post" name="form">
+              {% csrf_token %}
+              <input type="hidden" name="type" value="login">
+              <label for="username">Username</label>
+              <input class="form-styling" type="text" name="username" required>
+              <label for="password">Password</label>
+              <input class="form-styling" type="password" name="password" required>
+              <input type="checkbox" id="checkbox">
+              <label for="checkbox">
+                <span class="ui"></span>
+                Keep me signed in
+              </label>
+              <div class="btn-animate">
+                <button type="submit" class="btn btn-signin bg-lt">
+                  Sign in
+                </button>
+              </div>
+            </form>
+            <form class="form-signup" action="" method="post" name="form">
+              {% csrf_token %}
+              <input type="hidden" name="type" value="register">
+              <label for="username">Choose a username</label> <input class="form-styling" type="text" name="username" required>
+              <label for="email">Email</label>
+              <input class="form-styling" type="text" name="email" required>
+              <label for="password">Password</label>
+              <input class="form-styling" type="password" name="password" required>
+              <button type="submit" class="btn btn-signup bg-lt">
+                Sign Up
+              </button>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/auth_form.js' %}"></script>
+{% endcache %}
+{% endblock %}

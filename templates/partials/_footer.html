@@ -1,0 +1,15 @@
+{% load theme %}
+{% load cache %}
+{% cache None footer %}
+<div class="loader loader--style8" title="7">
+  {% include 'partials/_loader.html' %}
+</div>
+<div class="container-fluid">
+  <div id="about-us" class="bg-bg">
+    <legend class="ab font-weight-bold">{{site_name}}</legend>
+    <p class="gb">
+      {% lorem %}
+    </p>
+  </div>
+</div>
+{% endcache %}

@@ -1,0 +1,35 @@
+{% extends 'partials/_product-cards.html' %}
+{% load core %}
+{% block action_btns %}
+	{% block add_to_cart %}
+		<button class="btn btn-link product-action" id="add-to-cart-{{item.id}}">
+		  <i class="fas fa-shopping-cart {%if item.name|incart:user%}is--active{%else%}is--inactive{%endif%}" onclick="addToCart(this)" url="{% url 'remove-cart-item' id=item.id %}">
+		  </i>
+		  <span class="badge product-action--info">
+		    add to cart
+		  </span> 
+		</button>
+	{% endblock %}
+	{% block add_to_wishlist %}
+	{{block.super}}
+	{% endblock %}
+	{% block item_quantity %}
+	<form method="POST">
+		<div class="form-group">
+			<p style="display: inline;">Quantity:</p>
+			<input type="hidden" name="item" value="{{item.name}}">
+			{% csrf_token %}
+			<input type="number" id="quantity" name="quantity" min="1" max="20" class="height-15 bd-ba font-size-15 rounded"
+			value="{{item.quantity}}">
+			<button type="submit" class="btn btn-sm bd-ba rounded w-100">save</button>
+		</div>
+	</form>
+	{% endblock %}
+{% endblock %}
+{% block hover_mask %}{% endblock %}
+{% block card_mask %}{% endblock %}
+{% block item_categories %}
+	<small class="text-info font-size-15 d-block">
+		{{currency}}{{item.price|floatformat:2}}
+	</small>
+{% endblock %}

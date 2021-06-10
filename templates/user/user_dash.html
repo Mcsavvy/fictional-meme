@@ -1,0 +1,49 @@
+{% extends 'layouts.html' %} {% block head %}
+<title>Dashboard</title>
+{% endblock %}
+{% block fabs %}
+{% include 'partials/_dash-fabs.html' %}
+{% endblock %}
+{% block content %}
+<div class="container my-3">
+  <div class="user-infos">
+    <div class="card p-4 bg-bg shadow">
+      {% if have_profile %}
+      <p class="h4 text-dark">
+        <legend class="ba">
+          {{profile.first_name}}, track all your orders here.
+        </legend>
+      </p>
+      <p class="ba">
+        <b class="gb">
+          All updates would be forwarded to
+        </b>
+        <i class="clipboard-object">
+          {{profile.email|cut:" "}}
+        </i>
+      </p>
+      <a href="{% url 'user.profile.edit' %}" class="btn rounded-pill bd-ba btn-sm">edit</a>
+      {% else %}
+      <a href="{% url 'user.profile.update' %}" class="btn bd-ba rounded-pill btn-sm"
+        >Profile Info Required</a
+      >
+      {% endif %}
+    </div>
+    <div class="card mt-2 p-4 bg-bg shadow">
+      {% if address_there %}
+      <h4 class="gb">Delivery Address</h4>
+      <p class="ba clipboard-object">
+        {{address.home_street}}&nbsp;{{address.city}}, {{address.country}}
+      </p>
+      <h4 class="gb">Contact Information</h4>
+      <p class="ba clipboard-object">{{address.phone|cut:" "}}</p>
+      <a href="{% url 'user.address.edit' %}" class="btn btn-sm bd-ba rounded-pill">edit</a>
+      {% else %}
+      <a href="{% url 'user.address.update' %}" class="btn bd-ba rounded-pill btn-sm"
+        >Delivery Address Required</a
+      >
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock content %}
