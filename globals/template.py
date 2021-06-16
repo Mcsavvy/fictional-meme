@@ -8,6 +8,14 @@ CachedObject.settings['cache'] = dbcache
 
 
 class Builtin:
+    settings = dict(
+        cache=True,
+        timeout=0,
+        resolve_dict=True,
+        resolve_function=True,
+        ajax=None,
+    )
+
     def __init__(self, **kwargs):
         self.VARS = []
         self.request = {}
@@ -21,14 +29,14 @@ class Builtin:
 
     def __call__(self, request):
         vars = {}
-        for name, var, setting in self.VARS:
-            settings = dict(
-                cache=True,
-                timeout=0,
-                resolve_dict=True,
-                resolve_function=True,
-            )
-            settings.update(setting)
+        for name, var, settings in self.VARS:
+            settings = self.settings | settings
+            if request.isAjax:
+                if settings['ajax'] is False:
+                    continue
+            else:
+                if settings['ajax'] is True:
+                    continue
             if callable(var):
                 if not settings.get('resolve_function'):
                     vars[name] = CachedObject(name).get(

@@ -1,4 +1,3 @@
-from shop.views import add_to_cart, add_to_wish_list, shop_page
 from django.urls import path
 from . import views
 
@@ -13,6 +12,6 @@ urlpatterns = [
     path('user/wishlist-delete/<int:id>', views.delete_wish, name='wishlist.delete'),
     path('user/wishlist/clear', views.clear_wish, name='wishlist.delete.all'),
     path('user/wish-list-to-cart', views.create_cart_from_wishlist, name='wishlist.cart'),
-    path('shop/', views.shop_page, name='shop'),
+    path('shop/', views.ShopPage.as_view(), name='shop'),
     path('user/apply-coupon', views.apply_coupon_to_order, name="apply.coupon")
 ]

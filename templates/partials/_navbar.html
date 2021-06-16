@@ -3,85 +3,76 @@
 {% load user_agents %}
 {% load cache %}
 {% cache 3600 navbar %}
-<div class="bg-bg">
-  <div class="d-flex justify-content-between align-items-center">
+<div>
+  <div class="d-flex justify-content-between align-items-center bg-sh">
     <a href="/" id="favicon"
      class="hover-zoom">
       <img src="{% static 'img/favicon.png' %}"
       alt="<strong class='svg lt-sc'>𝕊𝕆𝔸ℝ 𝕋𝔼ℂℍ</strong>" height="80" loading="lazy" class="">
     </a>
-    <button type="button" class="btn btn-link ba" data-toggle="modal" data-target="#search-modal">
-      <icon class="fas fa-search stroke-ba-1"></icon>
+    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#search-modal">
+      <icon class="font-size-16 fas fa-search r-bg"></icon>
     </button>
     <a class="ba" title="Coupons" type="button" data-toggle="dropdown" aria-haspopup="true"
     aria-expanded="false">
-      <icon class="fas fa-ticket-alt fa-rotate-90 stroke-ba-1"></icon>
-      <span class="badge badge-notification rounded-pill bg bg-ab" id="coupons">
-        <i id="coupon_counter">{{available_coupons|length}}</i>
-      </span>
+      <icon class="fas fa-receipt {%if available_coupons%}r-bg{%else%}stroke-r-bg-1{%endif%}"></icon>
     </a>
-    <ul class="dropdown-menu bg-glass bd-ba-1" style="padding: 10px">
+    <ul class="dropdown-menu bg-sh bd-pm-1" style="padding: 10px">
 
       {% for coupon in available_coupons %}
-        <li class="container bd-gb-2 bg-lt text-primary clipboard-object my-1" data-clipboard-text="{{coupon.code}}" data-clipboard-toast="coupon code has been copied to your clipboard" style="text-transform: uppercase;">
+        <li class="container bd-r-bg-2 pm clipboard-object my-1" data-clipboard-text="{{coupon.code}}" data-clipboard-toast="coupon code has been copied to your clipboard" style="text-transform: uppercase;">
          get {{coupon.discount|floatformat:0}}% off any order!
           </i>
         </li>
       {% endfor %}
     </ul>
-    <a href="{% url 'dash' %}" class="ba" title="Notifications">
-      <icon class="fas fa-bell {% if has_notification %}ring{% endif %} ring stroke-ba-1"></icon>
-      <span class="badge badge-notification rounded-pill bg bg-ab" id="notification">
-        <i id="notification_counter">{{notifications|length}}</i>
-      </span>
+    <a href="{% url 'dash' %}" class="pm" title="Notifications" id="notification">
+      <icon class="fas fa-bell {% if notification %}r-bg ring{%else%}stroke-r-bg-1{% endif %}"></icon>
+      {% if notification %}
+        <span class="badge rounded-pill badge-notification r-bg bg-pm" id="notification-count"><i id="notification-counter">{{notification}}</i></span>
+      {% endif %}
     </a>
-    <a href="{% url 'cart' %}" class="ba" title="Cart"id="shopping-cart"> 
-      <icon class="fas fa-shopping-cart stroke-ba-1"></icon>
-      <span class="badge rounded-pill badge-notification bg bg-ab" id="cart-count"><i id="cart-counter">{{cart_count}}</i></span>
+    <a href="{% url 'cart' %}" class="pm" title="Cart"id="shopping-cart">
+      <icon class="fas fa-shopping-cart {%if cart_count%}r-bg{% else%}stroke-r-bg-1{%endif%}"></icon>
+      {% if cart_count %}
+        <span class="badge rounded-pill badge-notification r-bg bg-pm" id="cart-count"><i id="cart-counter">{{cart_count}}</i></span>
+      {% endif %}
     </a>
-    <a href="{% url 'wishlist' %}" class="ba mr-4" title="Wishlist" id="wishlist"> 
-      <icon class="fas fa-heartbeat stroke-ba-1"></icon> 
-      <span class="badge rounded-pill badge-notification bg bg-ab" id="wish-count">
-        <i id="wish-counter">{{wish_count}}</i>
-      </span>
+    <a href="{% url 'wishlist' %}" class="ba mr-4" title="Wishlist" id="wishlist">
+      <icon class="fas fa-heartbeat {%if wish_count%}r-bg{% else%}stroke-r-bg-1{%endif%}"></icon>
+      {% if wish_count %}
+        <span class="badge rounded-pill badge-notification r-bg bg-pm" id="wish-count">
+          <i id="wish-counter">{{wish_count}}</i>
+        </span>
+      {% endif %}
     </a>
   </div>
   <div class="container-md mb-3">
-    <ul class="nav nav-tabs url--menu hide">
-      <li class="nav-item">
-        <a href="/" class="nav-link url--item">
-          Home
-        </a>
-      </li>
+    <ul class="nav nav-tabs url--menu">
       {% if user.is_authenticated %}
       <li class="nav-item">
-        <a href="{% url 'cart' %}" class="nav-link url--item">
+        <a href="{% url 'cart' %}" class="nav-link url--item stroke-sc-1">
           Cart
         </a>
       </li>
       <li class="nav-item" aria-current="page">
-        <a href="{% url 'shop' %}" class="nav-link url--item">
+        <a href="{% url 'shop' %}" class="nav-link url--item stroke-sc-1">
           Shop
         </a>
       </li>
       <li class="nav-item" aria-current="page">
-        <a href="{% url 'wishlist' %}" class="nav-link url--item">
-          Wishlist
-        </a>
-      </li>
-      <li class="nav-item" aria-current="page">
-        <a href="{% url 'dash' %}" class="nav-link url--item">
+        <a href="{% url 'dash' %}" class="nav-link url--item stroke-sc-1">
           Dashboard
         </a>
       </li>
       <li class="nav-item" aria-current="page">
-        <a href="{% url 'logout' %}" class="nav-link url--item">
+        <a href="{% url 'logout' %}" class="nav-link url--item stroke-sc-1">
           Logout
         </a>
       </li>
       {% else %}
       <li class="nav-item" aria-current="page">
-        <a href="{% url 'auth' %}" class="nav-link url--item">
+        <a href="{% url 'auth' %}" class="nav-link url--item stroke-sc-1">
           Login or Signup
         </a>
       </li>
@@ -90,3 +81,6 @@
   </div>
 </div>
 {% endcache %}
+
+
+

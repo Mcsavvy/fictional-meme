@@ -1,132 +1,133 @@
-function toast(text, type, timeout, callback, position){
-	VanillaToasts.create({
-		// notification message
-		text: text,
-
-		// success, info, warning, error   / optional parameter
-		type: type || 'info', 
-
-		// topRight, topLeft, topCenter, bottomRight, bottomLeft, bottomCenter
-		positionClass: position || 'bottomRight',
-
-		// auto dismiss after 5000ms
-		timeout: timeout || 2000,
-
-		// executed when toast is clicked
-		callback: callback || null
-
-	});
+let ajx = {
+    post: {
+        ajax: 1,
+        type: "POST"
+    },
+    get: {
+        ajax: 1,
+        type: "GET"
+    }
 }
 
-function isNone(obj){
-	if ((typeof obj == typeof undefined || Boolean(obj) == false)){
-	    return true
-	} else {
-		return false
-	}
-	
+function toast(text, type, timeout, callback, position) {
+    VanillaToasts.create({
+        // notification message
+        text: text,
+
+        // success, info, warning, error   / optional parameter
+        type: type || 'info',
+
+        // topRight, topLeft, topCenter, bottomRight, bottomLeft, bottomCenter
+        positionClass: position || 'bottomRight',
+
+        // auto dismiss after 5000ms
+        timeout: timeout || 2000,
+
+        // executed when toast is clicked
+        callback: callback || null
+
+    });
 }
 
-function message(text, type){
-	toast(text, type, 4000, function(){}, "topRight")
+function isNone(obj) {
+    if ((typeof obj == typeof undefined || Boolean(obj) == false)) {
+        return true
+    } else {
+        return false
+    }
+
+}
+
+function message(text, type) {
+    toast(text, type, 4000, function() {}, "topRight")
 }
 
 // JavaScript function to get cookie by name; retrieved from https://docs.djangoproject.com/en/3.1/ref/csrf/
 function getCookie(name) {
-	let cookieValue = null;
-	if (document.cookie && document.cookie !== '') {
-	    const cookies = document.cookie.split(';');
-	    for (let i = 0; i < cookies.length; i++) {
-	        const cookie = cookies[i].trim();
-	        // Does this cookie string begin with the name we want?
-	        if (cookie.substring(0, name.length + 1) === (name + '=')) {
-	            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-	            break;
-	        }
-	    }
-	}
-	return cookieValue;
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
 }
-
 
 // JavaScript wrapper function to send HTTP requests using Django's "X-CSRFToken" request header
 request = {
-	get: function(path, body, callback){
-		body.ajax = 1
-		$.get(path, body, callback)
-	},
-	post: function(path, body, callback){
-		body.ajax = 1
-		$.ajax({
-			url: path,
-			type: "POST",
-			data: body,
-			headers: {"X-CSRFToken": getCookie("csrftoken")},
-			success: callback
-		})
-	}
+    get: function(path, body, callback) {
+        if (isNone(body)){
+            body = new Object
+        }
+        body = {...body, ...ajx.get}
+        $.ajax({
+        	url: path,
+        	type: "GET",
+        	data: body,
+        	headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+            },
+        	success: callback
+        })
+    },
+    post: function(path, body, callback) {
+        if (isNone(body)){
+            body = new Object
+        }
+        body = {...body, ...ajx.get}
+        $.ajax({
+            url: path,
+            type: "POST",
+            data: body,
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+            },
+            success: callback
+        })
+    }
 }
 
-
-function addToCart(self){
-	$.ajax({
-		"url" : $(self).attr('url')+ '?ajax=1',
-		"type" : "GET",
-		"success" : function(data) {
-			$("#cart-count").load("/?ajax=1 #cart-counter")
-			card = $(self).closest('.product-card')
-			card.load(" #" + card.attr('id') + ' .ajax-wrapper', {"ajax": 1})
-			toast(
-				data.message,
-				data.level,
-				2000,
-				null
-			)
-		}
-	})
+function dispatchEvent(events_args){
+    $.ajax({
+        url: '/api/events',
+        type: "GET",
+        headers: {
+            "X-Events": events_args,
+            "X-Ajax": 1
+        },
+    })
 }
 
-function addToWishlist(self){
-	$.ajax({
-		"url" : $(self).attr('url')+ '?ajax=1',
-		"type" : "GET",
-		"success" : function(data) {
-			$("#wish-count").load("/?ajax=1 #wish-counter")
-			card = $(self).closest('.product-card')
-			card.load("?ajax=1 #" + card.attr('id') + ' .ajax-wrapper')
-			toast(
-				data.message,
-				data.level,
-				2000,
-				null
-			)
-		}
-	})
+function addToCart(self) {
+    request.get($(self).attr('url'), null, function(data) {
+        request.get("/shop", null, function(data){
+        	shop.updateCart(data.cart)
+        	shop.updateWishlist(data.wish)
+        	shop.updateNotification(data.notification)
+        })
+        card = $(self).closest('.product-card')
+        card.load(`?x-ajax #${card.attr('id')} .ajax-wrapper`)
+        toast(data.message, data.level, 2000, null)
+    })
 }
 
-function darkMode(){
-	request.post(
-		"/theme",
-		{"dm": 1},
-		function(data){
-			if ("message" in data){
-				toast(
-					data.message,
-					data.level,
-					1000,
-					$("#theme-control").load(" #theme-toggler"),
-					"topRight"
-				);
-				$("#nav-btn").click();
-				return
-			};
-			$("#style-sheet").load(" #style-sheet");
-			$("#theme-control").load(" #theme-toggler");
-			$("#nav-btn").click();
-			
-			
-		}
-	)
+function addToWishlist(self) {
+    request.get($(self).attr('url'), null, function(data) {
+        request.get("/shop", null, function(data){
+        	shop.updateCart(data.cart)
+        	shop.updateWishlist(data.wish)
+        	shop.updateNotification(data.notification)
+        })
+        card = $(self).closest('.product-card')
+        card.load(`?x-ajax #${card.attr('id')} .ajax-wrapper`)
+        toast(data.message, data.level, 2000, null)
+    })
 }
 
 function lightMode(){
@@ -276,6 +277,7 @@ function applyCoupon(self){
 
 
 $(function(){
+	main.setPrefferedMode();
 	$(".input--menu-object").each(function(){
 		if (!$(this).hasClass('fas')){
 			$(this).addClass('fas')
@@ -328,3 +330,87 @@ $(function(){
 
 
 })
+
+var main = {
+    darkmodeCss: "<link id='dm' href='/static/css/dark-mode.css' rel='stylesheet'/>",
+    lightmodeCss: "<link id='lm' href='/static/css/light-mode.css' rel='stylesheet'/>",
+    // Create cookie
+    createCookie: function(name, value, days) {
+        var expires;
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toGMTString();
+        }
+        else {
+            expires = "";
+        }
+        document.cookie = name + "=" + value + expires + "; path=/";
+    },
+
+    // Read cookie
+    readCookie: function(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(";");
+        for(var i=0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) === " ") {
+                c = c.substring(1, c.length);
+            }
+            if (c.indexOf(nameEQ) === 0) {
+                return c.substring(nameEQ.length,c.length);
+            }
+        }
+        return null;
+    },
+
+    // Erase cookie
+    eraseCookie: function(name) {
+        this.createCookie(name, "", -1);
+    },
+
+    // Toggle light/dark mode 
+    toggleDarkMode: function() {
+        if ($('#dm').length == 0) {
+            $("#lm").remove();
+            $("head:first").append($(this.darkmodeCss));
+            this.createCookie("preferredTheme", "dark-mode", 365);
+            $('#theme-fab').removeClass('fa-moon')
+            $('#theme-fab').addClass('fa-sun')
+        } else {
+            $("#dm").remove();
+            $("head:first").append($(this.lightmodeCss));
+            this.createCookie("preferredTheme", "light-mode", 365);
+            $('#theme-fab').removeClass('fa-sun')
+            $('#theme-fab').addClass('fa-moon')
+        }
+    },
+
+    // Get preferred mode
+    getPreferredMode: function() {
+        if (this.readCookie("preferredTheme")) {
+            return this.readCookie("preferredTheme");
+        } else {
+            return "not-set";
+        }
+    },
+    setPrefferedMode: function() {
+        mode = this.getPreferredMode();
+        if (mode == 'not-set'){
+            $("head:first").append($(this.lightmodeCss));
+            this.createCookie("preferredTheme", "light-mode", 365);
+            $('#theme-fab').removeClass('fa-sun')
+            $('#theme-fab').addClass('fa-moon')
+        } else if (mode == 'light-mode'){
+            $('#dm').remove()
+            $("head:first").append($(this.lightmodeCss));
+            $('#theme-fab').removeClass('fa-sun')
+            $('#theme-fab').addClass('fa-moon')
+        } else if (mode == 'dark-mode'){
+            $('#lm').remove()
+            $("head:first").append($(this.darkmodeCss));
+            $('#theme-fab').removeClass('fa-moon')
+            $('#theme-fab').addClass('fa-sun')
+        }
+    }
+}

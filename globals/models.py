@@ -31,7 +31,7 @@ class Model:
             self.searchable = [_ for _ in self.fields if _ != "id"]
         if not self.required:
             self.required = [_ for _ in self.fields if _ != "id"]
-        self.all = [_ for _ in self.model.objects.all()]
+        self.all = self.model.objects.all()
         for field in self.fields:
             setattr(
                 self,

@@ -1,102 +1,103 @@
-{% load theme %}
+{% load static %}
 {% load core %}
+<script type="text/javascript" src="{% static 'js/shop.js' %}" defer></script>
 <div class="{% block card_classes %}card col-auto shadow ml-2{% endblock %} product-card" id="product-{{item.name|slugify}}">
-  <div class="ajax-wrapper">
-    <div class="bg-image hover-zoom ripple" data-mdb-ripple-color="light">
-      {% block image %}
+<div class="ajax-wrapper">
+  <div class="bg-image hover-zoom ripple" data-mdb-ripple-color="light">
+    {% block image %}
       <img src="{{item.image.url}}" style="height: 5cm">
-      {% endblock image %}
-      <div class="mask">
-        {% block card_mask %}
+    {% endblock image %}
+    <div class="mask">
+      {% block card_mask %}
         <div class="d-flex justify-content-between align-items-start">
           {% block top_product %}
-          <span class="badge bg-glass">
-            {% if item.top_product %}
-              {% for i in '123'|make_list %}
-                <i class="fas fa-star is--active"></i>
-              {% endfor %}
-              <i class="fas fa-star is--inactive"></i>
-              <i class="fas fa-star is--inactive"></i>
-            {% else %}
-              {% for i in "12345"|make_list %}
+            <span class="badge bg-glass">
+              {% if item.top_product %}
+                {% for i in '123'|make_list %}
+                  <i class="fas fa-star is--active"></i>
+                {% endfor %}
                 <i class="fas fa-star is--inactive"></i>
-              {% endfor %}
-            {% endif %}
-          </span>
+                <i class="fas fa-star is--inactive"></i>
+              {% else %}
+                {% for i in "12345"|make_list %}
+                  <i class="fas fa-star is--inactive"></i>
+                {% endfor %}
+              {% endif %}
+            </span>
           {% endblock %}{% block featured_product %}
           <span class="badge bg-glass">
             <i class="fas fa-feather-alt is--{%if item.featured%}active{%else%}inactive{%endif%} float-right"></i>
           </span>
-          {% endblock %}
-          <!-- #{{item.categories.all.0}} -->
-        </div>
         {% endblock %}
+        <!-- #{{item.categories.all.0}} -->
       </div>
-      <div class="hover-overlay">
-        {% block hover_mask %}
-        <div class="mask bg-shadow">
-          <div class="container">
-            <div class="container mt-4">
-              <p class="display-6 text-center pm">
-                {{item.discount|floatformat:0}}% OFF!!
-              </p>
-              <del class="h5 text-muted d-block">
-              {{currency}}{{item.price|floatformat:2}}</del>
-              <strong class="h5 lt">
-              {{currency}}{{item.discounted_price|floatformat:2}}</strong>
-            </div>
+    {% endblock %}
+  </div>
+  <div class="hover-overlay">
+    {% block hover_mask %}
+      <div class="mask bg-sh">
+        <div class="container">
+          <div class="container mt-4">
+            <p class="display-6 text-center pm">
+              {{item.discount|floatformat:0}}% OFF!!
+            </p>
+            <del class="h5 text-muted d-block">
+            {{currency}}{{item.price|floatformat:2}}</del>
+            <strong class="h5 lt">
+            {{currency}}{{item.discounted_price|floatformat:2}}</strong>
           </div>
         </div>
-        {% endblock %}
       </div>
-    </div>
-    {% block card_body %}
-    <div class="card-body text-left">
-      {% block item_name %}
-      <small>{{item.name}}</small>
-      {% endblock %}{% block item_brand %}
-      <a href="{{item.brand.url}}" class="d-block sc font-size-10">
-        @{{item.brand}}
-      </a>
-      {% endblock %}{% block item_categories %}
-      {% for cat in item.categories.all %}
-      <a href="{{cat.url}}" class="text-info font-size-10">
-        #{{cat}}
-      </a>
-      {% endfor %}
-      {% endblock %}
-    </div>
     {% endblock %}
-    <div class="card-footer">
-      {% block action_btns %}
-      <div class="d-flex justify-content-between align-items-end">
-        {% if request.user.is_authenticated %}{% block add_to_cart %}
-        <button class="btn btn-link product-action" id="add-to-cart-{{item.id}}">
-          <i class="fas fa-shopping-cart {%if item.name|incart:user%}is--active{%else%}is--inactive{%endif%}" onclick="addToCart(this)" url="{% url 'to-cart' itemId=item.id %}">
-          </i>
-          <span class="badge product-action--info">
-            add to cart
-          </span> 
-        </button>
-        {% endblock add_to_cart %}{% block add_to_wishlist %}
-        <button class="btn btn-link product-action" id="add-to-wishlist-{{item.id}}">
-          <i class="fas fa-heart {%if item.id|inwishlist:user%}is--active{%else%}is--inactive{%endif%}" onclick="addToWishlist(this)" url="{% url 'wishlist.add' itemId=item.id%}">
-          </i>
-          <span class="badge product-action--info">
-            add to wishlist
-          </span>
-        </button>
-        {% endblock add_to_wishlist %}{% block view_item %}
-        <button class="btn btn-link">
-          <a href="{{item.url}}" class="fas fa-arrow-alt-circle-right is--active">
-          </a>
-          <span class="badge product-action--info">
-            view this item
-          </span>
-        </button>
-        {% endblock view_item %}{% endif %}
-      </div>
-      {% endblock action_btns %}
-    </div>
   </div>
+</div>
+{% block card_body %}
+  <div class="card-body text-left">
+    {% block item_name %}
+      <small>{{item.name}}</small>
+    {% endblock %}{% block item_brand %}
+    <a href="{{item.brand.url}}" class="d-block sc font-size-10">
+      @{{item.brand}}
+    </a>
+  {% endblock %}{% block item_categories %}
+  {% for cat in item.categories.all %}
+    <a href="{{cat.url}}" class="text-info font-size-10">
+      #{{cat}}
+    </a>
+  {% endfor %}
+{% endblock %}
+</div>
+{% endblock %}
+<div class="card-footer d-flex">
+{% block action_btns %}
+<div class="d-flex justify-content-between align-items-end">
+  {% if request.user.is_authenticated %}{% block add_to_cart %}
+    <button class="btn btn-link product-action" id="add-to-cart-{{item.id}}">
+    <i class="fas fa-shopping-cart {%if item.name|incart:user%}is--active{%else%}is--inactive{%endif%}" onclick="addToCart(this)" url="{% url 'to-cart' itemId=item.id %}">
+    </i>
+    <span class="badge product-action--info">
+      add to cart
+    </span>
+    </button>
+  {% endblock add_to_cart %}{% block add_to_wishlist %}
+  <button class="btn btn-link product-action" id="add-to-wishlist-{{item.id}}">
+  <i class="fas fa-heart {%if item.id|inwishlist:user%}is--active{%else%}is--inactive{%endif%}" onclick="addToWishlist(this)" url="{% url 'wishlist.add' itemId=item.id%}">
+  </i>
+  <span class="badge product-action--info">
+    add to wishlist
+  </span>
+  </button>
+{% endblock add_to_wishlist %}{% block view_item %}
+<button class="btn btn-link">
+<a href="{{item.url}}" class="fas fa-arrow-alt-circle-right is--active">
+</a>
+<span class="badge product-action--info">
+  view this item
+</span>
+</button>
+{% endblock view_item %}{% endif %}
+</div>
+{% endblock action_btns %}
+</div>
+</div>
 </div>

@@ -15,20 +15,20 @@
 {% block content %}
 <div class="container my-3" id="f-slide">
   <div id="featured-products">
-    <div class="d-flex bg-ba justify-content-between">
+    <div class="d-flex bg-sh justify-content-between">
       <button class="btn btn-sm btn-link float-left"
       {% if featured.slide > 1 %}
       onclick="$('#f-slide').load('/?fslide={{featured.slide|add:-1}} #featured-products')"
       {% else %}
       disabled
       {% endif %}>
-        <i class="fas fa-arrow-left bg"></i>
+        <i class="fas fa-arrow-left r-bg"></i>
       </button>
-      <h5 class="my-2 bg text-center">Featured Products</h5>
+      <h5 class="my-2 r-bg text-center">Featured Products</h5>
       <button class="btn btn-sm btn-link float-right"
       {%if not featured%}disabled{%endif%}
       onclick="$('#f-slide').load('/?fslide={{featured.slide|add:1}} #featured-products')">
-        <i class="fas fa-arrow-right bg"></i>
+        <i class="fas fa-arrow-right r-bg"></i>
       </button>
     </div>
     <br>
@@ -55,20 +55,20 @@
 
 <div class="container my-3" id="t-slide">
   <div id="top-products">
-    <div class="d-flex bg-ba justify-content-between">
+    <div class="d-flex bg-sh justify-content-between">
       <button class="btn btn-sm btn-link float-left"
       {% if top_product.slide > 1 %}
       onclick="$('#t-slide').load('/?tslide={{top_product.slide|add:-1}} #top-products')"
       {% else %}
       disabled
       {% endif %}>
-        <i class="fas fa-arrow-left bg"></i>
+        <i class="fas fa-arrow-left r-bg"></i>
       </button>
-      <h5 class="my-2 bg text-center">Top Products</h5>
+      <h5 class="my-2 r-bg text-center">Top Products</h5>
       <button class="btn btn-sm btn-link float-right"
       {%if not top_product%}disabled{%endif%}
       onclick="$('#t-slide').load('/?tslide={{top_product.slide|add:1}} #top-products')">
-        <i class="fas fa-arrow-right bg"></i>
+        <i class="fas fa-arrow-right r-bg"></i>
       </button>
     </div>
     <br>

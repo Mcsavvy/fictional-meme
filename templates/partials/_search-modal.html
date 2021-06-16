@@ -6,46 +6,46 @@
           <input type="hidden" name="cat">
           <input type="hidden" name="brand">
           <div class="input-group">
-            <i class="fas fa-filter ba mr-2" onclick="$('#search--filters').toggleClass('show')">
+            <i class="fas fa-filter pm mr-2" onclick="$('#search--filters').toggleClass('show')">
             </i>
             <div class="dropdown-menu bg-bg" id="search--filters"
             style="overflow: visible;">
-              <span class="dropdown-item gb" onclick="{
+              <span class="dropdown-item pm" onclick="{
                 $(this).children('i.fas').toggleClass('fa-arrow-circle-down fa-times-circle')
                 $('#cat--filters').slideToggle();
                 }">
-                Filter By Category <i class='fas fa-arrow-circle-down float-right' style="position: relative; top:5px"></i>
+                Filter By Category <i class='fas fa-arrow-circle-down float-right sc' style="position: relative; top:5px"></i>
               </span>
               <div class="dropdown-menu bg-bg my-1 input--menu" id="cat--filters"
               style="position: relative;" iref="input[name=cat]">
                 {% for cat in categories %}
-                <span class="dropdown-item gb input--menu-object"
+                <span class="dropdown-item input--menu-object"
                 ivalue={{cat}}>
                   {{cat}}
                 </span>
                 {% endfor %}
               </div>
-              <span class="dropdown-item gb" onclick="{
+              <span class="dropdown-item pm" onclick="{
                 $(this).children('i.fas').toggleClass('fa-arrow-circle-down fa-times-circle')
                 $('#brand--filters').slideToggle();
                 }">
-                Filter By Brands <i class='fas fa-arrow-circle-down float-right' style="position: relative; top:5px"></i>
+                Filter By Brands <i class='fas fa-arrow-circle-down float-right sc' style="position: relative; top:5px"></i>
               </span>
               <div class="dropdown-menu bg-bg my-1 input--menu" id="brand--filters" iref="input[name=brand]"
               style="position: relative;">
                 {% for brand in brands %}
-                <span class="dropdown-item gb input--menu-object" ivalue="{{brand}}">
+                <span class="dropdown-item input--menu-object" ivalue="{{brand}}">
                   {{brand}}
                 </span>
                 {% endfor %}
               </div>
             </div> 
             <input type="search"
-            class="form-control bd-ba bg-bg"
+            class="form-control bd-pm bg-bg"
             placeholder="search products, brands & categories..." aria-label="Search"
               aria-describedby="search-addon" name="query"
             style="border-bottom-left-radius: 2rem; border-top-left-radius: 2rem;">
-            <button type="submit" class="btn bg-ba bg fas fa-search"
+            <button type="submit" class="btn bg-pm bg fas fa-search"
             style="border-bottom-right-radius: 2rem; border-top-right-radius: 2rem"></button>
           </div>
         </form>

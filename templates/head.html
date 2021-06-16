@@ -16,7 +16,7 @@
   <link href="{%static 'fontawesome/css/fontawesome.css'%}" rel="stylesheet">
   <link href="{%static 'fontawesome/css/brands.css'%}" rel="stylesheet">
   <link href="{%static 'fontawesome/css/solid.css'%}" rel="stylesheet">
-  <link
+  <link id="mdbootstrap-css" 
     href="{%static 'css/mdb.min.css'%}"
     rel="stylesheet"
   />
@@ -24,11 +24,7 @@
     href="{%static 'css/vanillatoasts.css'%}"
     rel="stylesheet"
   />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-  />
-
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
   {% block head %} {% endblock %}
   {% block custom_style %}
   <style type="text/css" id="style-sheet">
@@ -51,44 +47,39 @@
         }
       {% endfor %}
     {% endfor %}
-    :root {
-      {% for colour, value in colour_list.items %}
-      --{{colour}}: {{value}};
-      {% endfor %}
-    }
     {% for colour in colour_list %}
-    .{{colour}} {
-      color: var(--{{colour}});
-    }
-    .bd-{{colour}} {
-      border-style: solid;
-      border-color: var(--{{colour}});
-      border-width: .125rem;
-      box-shadow: none;
-      padding: .5rem 1.375rem .375rem;
-      color: var(--{{colour}});
-    }
-    {% for i in font_sizes %}
-      .bd-{{colour}}-{{i}} {
-        border-style: solid;
-        border-color: var(--{{colour}});
-        border-width: {{i}}px;
-        box-shadow: none;
+      .{{colour}} {
         color: var(--{{colour}});
       }
-      .stroke-{{colour}}-{{i}}{
-        color: transparent !important;
-        font-size: 1rem;
-        -webkit-text-stroke-width: {{i}}px !important;
-        -webkit-text-stroke-color: var(--{{colour}});
+      .bd-{{colour}} {
+        border-style: solid;
+        border-color: var(--{{colour}});
+        border-width: .125rem;
+        box-shadow: none;
+        padding: .5rem 1.375rem .375rem;
+        color: var(--{{colour}});
       }
-      .outline-{{colour}}-{{i}} {
-        outline: var(--{{colour}}) solid {{i}}px;
+      {% for i in font_sizes %}
+        .bd-{{colour}}-{{i}} {
+          border-style: solid !important;
+          border-color: var(--{{colour}}) !important;
+          border-width: {{i}}px !important;
+          box-shadow: none !important;
+          color: var(--{{colour}});
+        }
+        .stroke-{{colour}}-{{i}}{
+          color: transparent !important;
+          font-size: 1rem;
+          -webkit-text-stroke-width: {{i}}px !important;
+          -webkit-text-stroke-color: var(--{{colour}});
+        }
+        .outline-{{colour}}-{{i}} {
+          outline: var(--{{colour}}) solid {{i}}px;
+        }
+      {% endfor %}
+      .bg-{{colour}} {
+        background-color: var(--{{colour}});
       }
-    {% endfor %}
-    .bg-{{colour}} {
-      background-color: var(--{{colour}});
-    }
     {% endfor %}
   </style>
   <script type="text/javascript">

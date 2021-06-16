@@ -41,21 +41,12 @@
 {% if user.is_authenticated %}  
 <div id="theme-control" class="floating-action">
   <div id="theme-toggler">
-    {% if user.username|get_theme:"dm" %}
-    <button class="btn btn-floating fab-item" onclick="lightMode()">
-      <i class="fas fa-sun"></i>
+    <button class="btn btn-floating fab-item" onclick="main.toggleDarkMode()">
+      <i class="fas fa-moon" id="theme-fab"></i>
       <span class="fab-info">
-        switch to lightmode
+        toggle darkmode
       </span>
     </button>
-    {% else %}
-    <button class="btn btn-floating fab-item" onclick="darkMode()">
-      <i class="fas fa-moon"></i>
-      <span class="fab-info">
-        switch to darkmode
-      </span>
-    </button>
-    {% endif %}
   </div>
 </div>
 {% endif %}

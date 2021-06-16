@@ -11,10 +11,10 @@
 </script>
 <style type="text/css">
   body {
-    background-color: var(--dk)
+    background-color: var(--bg)
   }
   .frame {
-    border-top-color: var(--dk)
+    border-top-color: var(--bg)
   }
 </style>
 <div class="container-fluid d-flex justify-content-center" id="auth">
@@ -24,8 +24,8 @@
       </div>
         <div class="nav">
             <ul class="links">
-                <li class="signin-active"><a class="btn control float-left xhide">Sign in</a></li>
-                <li class="signup-inactive"><a class="btn control float-left">Sign up </a></li>
+                <li class="signin-active"><a class="btn control float-left xhide rounded-pill bd-pm-1">Sign in</a></li>
+                <li class="signup-inactive"><a class="btn control float-left rounded-pill bd-pm-1">Sign up </a></li>
             </ul>
         </div>
         <div ng-app ng-init="checked = false">
@@ -42,7 +42,7 @@
                 Keep me signed in
               </label>
               <div class="btn-animate">
-                <button type="submit" class="btn btn-signin bg-lt">
+                <button type="submit" class="btn btn-signin bd-pm-1">
                   Sign in
                 </button>
               </div>

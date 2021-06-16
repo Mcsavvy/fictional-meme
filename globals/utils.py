@@ -89,7 +89,8 @@ def _2Darray(data, c, r, spillover=True, fillempty=None, loop=True):
                         else:
                             cols.append(fillempty)
                     else:
-                        grid.append(cols)
+                        if cols:
+                            grid.append(cols)
                         return grid
         grid.append(cols)
     for index, col in enumerate(grid):

@@ -76,7 +76,7 @@ class Theme(models.Model):
 
 
 class Node(models.Model):
-    user = models.ForeignKey(User, models.CASCADE)
+    user = models.OneToOneField(User, models.CASCADE, related_query_name="node")
     theme = models.ForeignKey(
         Theme, on_delete=models.DO_NOTHING, null=True, blank=True,
         related_name="user"

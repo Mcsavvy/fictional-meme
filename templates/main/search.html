@@ -11,19 +11,19 @@
 {% endblock %} {% block content %}
 <div class="container my-3">
   <div class="section-header">
-    <h3 class="my-2 gb">Search Results</h3>
+    <legend class="my-2 stroke-pm-1">Search Results</legend>
     {% if query %}
     <ul class="container" id="search-results">
       {% if query.products %}
-        <li class="container btn ab mb-2" onclick="$('#product-list').toggleClass('collapse')">
+        <li class="container btn bd-r-bg-1 mb-2" onclick="$('#product-list').toggleClass('collapse')">
           <b class="float-left">products</b>
-          <span class="badge bg-gb bg float-right">
+          <span class="badge bd-sc-1 float-right">
             {{query.products|length}}
           </span><br>
           <ul class="container collapse list-unstyled" id="product-list" style="overflow: hidden">
             {% for product in query.products %}
             <li class="text-left my-2">
-              <a href="{{product.url}}" class="pm-lt">
+              <a href="{{product.url}}" class="r-bg">
                 <img class="rounded-circle" src="{{product.image.url}}" alt="Generic placeholder image" style="height: .5cm; width: .5cm">
                 {{product.name}}
               </a>
@@ -33,17 +33,17 @@
         </li>
       {% endif %}
       {% if query.categories %}
-        <li class="container btn ab mb-2" onclick="$('#category-list').toggleClass('collapse')">
+        <li class="container bd-r-bg-1 btn mb-2" onclick="$('#category-list').toggleClass('collapse')">
           <b class="float-left">
             categories
           </b>
-          <span class="badge bg-gb bg float-right">
+          <span class="badge bd-sc-1 float-right">
             {{query.categories|length}}
           </span><br>
           <ul class="container collapse list-unstyled" id="category-list" style="overflow: hidden">
             {% for category in query.categories %}
             <li class="text-left my-2">
-              <a href="{{category.url}}" class="pm-lt">
+              <a href="{{category.url}}" class="r-bg">
                 <img class="rounded-circle" src="{{category.image.url}}" alt="Generic placeholder image" style="height: .5cm; width: .5cm">
                 {{category.name}}
               </a>
@@ -53,17 +53,17 @@
         </li>
       {% endif %}
       {% if query.brands %}
-        <li class="container btn ab mb-2" onclick="$('#brand-list').toggleClass('collapse')">
+        <li class="container btn bd-r-bg-1 mb-2" onclick="$('#brand-list').toggleClass('collapse')">
           <b class="float-left">
             brands
           </b>
-          <span class="badge bg-gb bg float-right">
+          <span class="badge bd-sc-1 float-right">
             {{query.brands|length}}
           </span><br>
           <ul class="container collapse list-unstyled" id="brand-list" style="overflow: hidden">
             {% for brand in query.brands %}
             <li class="text-left my-2">
-              <a href="{{brand.url}}" class="pm-lt">
+              <a href="{{brand.url}}" class="r-bg">
                 <img class="rounded-circle" src="{{brand.image.url}}" alt="Generic placeholder image" style="height: .5cm; width: .5cm">
                 {{brand.name}}
               </a>

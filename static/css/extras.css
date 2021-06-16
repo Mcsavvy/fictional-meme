@@ -14,6 +14,72 @@ select {
   display: block;
 }
 
+a:hover, a:focus, a:active{
+  color: var(--r-bg);
+  text-decoration: none
+}
+
+
+.btn-outline-secondary, .btn-outline-secondary:hover {
+  border-color: var(--pm);
+  color: var(--pm);
+}
+
+.btn-link, .btn-link.active, .btn-link.active:focus, .btn-link.focus, .btn-link:active, .btn-link:active:focus, .btn-link:focus, .btn-link:hover{
+  background-color: transparent;
+  color: initial;
+}
+
+.ring {
+  animation: tada 1s;
+  animation-iteration-count:50;
+}
+
+.ring:hover, .ring:active, .ring:focus {
+  animation-play-state: paused
+}
+
+input, input:focus {
+  colour: var(--r-bg);
+  background: var(--bg);
+  border-color: var(--pm);
+}
+
+/* Floating Action */
+
+.fab, .fab:focus, .fab:hover {
+  border-color: var(--dk-bg);
+  color: var(--pm);
+  background-color: var(--r-bg);
+}
+
+.fab-active, .fab-active:focus, .fab-active:hover {
+  border-color: var(--sh);
+  color: var(--pm);
+  background-color: var(--bg)  
+}
+
+.fab-info {
+  visibility: hidden;
+  background-color: transparent;
+  color: var(--dk-sc);
+  position: relative;
+  bottom: 1.8rem;
+  right: 2.7rem;
+  text-align: right
+}
+
+.fab-item {
+  background-color: var(--r-bg);
+  color: var(--pm);
+}
+
+.fab-info-active {
+  animation: none;
+  float: right;
+}
+
+
 div.floating-action-menu > .action-menu {
     visibility: hidden;
     transform: translateY(65px);
@@ -63,113 +129,60 @@ div.floating-action-menu.active > .action-button > .btn-floating > i {
   margin-top: 5px;
 }
 
-a:hover, a:focus, a:active{
-  color: var(--gb);
-  text-decoration: none
-}
-
-
-.btn-outline-secondary, .btn-outline-secondary:hover {
-  border-color: var(--ba);
-  color: var(--ba);
+/* INPUT MENU */
+.input--menu-object{
+	color: var(--pm);
 }
 
 .input--menu-selected:after {
   content: "\f058";
   display: inline-block;
 }
-
-.input--menu-selected{
-  filter: brightness(80%)
-}
-
-.btn-link, .btn-link.active, .btn-link.active:focus, .btn-link.focus, .btn-link:active, .btn-link:active:focus, .btn-link:focus, .btn-link:hover{
-  background-color: transparent;
-  color: initial;
-}
-
-.ring {
-  animation: tada 1s;
-  animation-iteration-count:50;
-}
-
-.ring:hover, .ring:active, .ring:focus {
-  animation-play-state: paused
-}
-
-input, input:focus {
-  colour: var(--gb);
-  background: var(--bg);
-  border-color: var(--ba);
-}
-
-.fab, .fab:focus, .fab:hover {
-  border-color: var(--gb);
-  color: var(--ba);
-  background-color: var(--gb);
-}
-
-.fab-active, .fab-active:focus, .fab-active:hover {
-  border-color: var(--ba);
-  color: var(--ba);
-  background-color: var(--bg)  
-}
-
-.fab-info {
-  visibility: hidden;
-  background-color: transparent;
-  color: var(--dk-sc);
-  position: relative;
-  bottom: 1.8rem;
-  right: 2.7rem;
-  text-align: right
-}
-
-.fab-item {
-  background-color: var(--gb);
-  color: var(--ab);
-}
-
-.fab-info-active {
-  animation: none;
-  float: right;
-}
-
 .input--menu{
-  
+  background-color: var(--bg);
 }
 
 .input--menu-selected{
-  color: var(--bg);
-  background-color: var(--ba)
+  color: var(--pm);
+  background-color: var(--sh)
 }
 
 .input--menu-selected:hover {
-  color: var(--ba);
+  color: var(--pm);
   background-color: var(--bg)
 }
 
+/* URL MENU */
+
 .url--menu {
   background-color: transparent;
-  overflow-x: auto;
-  overflow-y: clip;
+  padding-bottom: 0px;
+  margin-bottom: 10px;
 }
 
 .url--item {
-  color: var(--ba) !important;
-  filter: brightness(0.8);
+  color: var(--r-bg) !important;
+  border-color: transparent;
+  margin-left: 5px;
+  box-shadow: none;
   background-color: transparent !important;
+  padding: 0.5rem !important;
+  font-size: 1rem !important;
 }
 
 .url--item.active {
-  color: var(--ba) !important;
-  filter: brightness(150%);
-  border-color: var(--gb) !important;
+    border-color: var(--sc) !important;
 }
 
+/* ICON */
+
 icon {
-  color: var(--ba);
+  color: var(--sc);
+  width: 1rem;
+  height: 1rem;
 }
+
+/* PRODUCT CARDS */
 
 #mobile .product-card {
 	text-align: center;
@@ -205,13 +218,13 @@ icon {
 .product-action--info{
 	display: none;
 	color: var(--bg);
-	background-color: var(--ba);
+	background-color: var(--pm);
 	font-family: sans-serif;
 }
 
 
 #mobile .product-action:hover{
-	color: var(--gb)
+	color: var(--r-bg)
 }
 
 #not-mobile .product-action:hover{
@@ -223,11 +236,7 @@ icon {
 }
 
 #mobile .product-action a:hover{
-	color: var(--gb)
-}
-
-.xhide {
-	display: none;
+	color: var(--r-bg)
 }
 
 .product-action{
@@ -237,8 +246,12 @@ icon {
 	color: var(--bg);
 }
 
+.product-card:empty{
+	display: none;
+}
+
 .is--active{
-   color: var(--sc);
+   color: var(--pm);
    font-size: 1rem;
 }
 
@@ -246,12 +259,15 @@ icon {
 	color: transparent;
 	font-size: 1rem;
    -webkit-text-stroke-width: 1px;
-   -webkit-text-stroke-color: var(--sc);
+   -webkit-text-stroke-color: var(--pm);
 }
 
-.product-card:empty{
+
+.xhide {
 	display: none;
 }
+
+
 
 .slidecontainer {
   width: 100%;
@@ -260,8 +276,8 @@ icon {
 .slider {
   -webkit-appearance: none;
   width: 100%;
-  height: 25px;
-  background: #d3d3d3;
+  height: .6rem;
+  background: var(--sh);
   outline: none;
   opacity: 0.7;
   -webkit-transition: .2s;
@@ -275,16 +291,18 @@ icon {
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 25px;
-  height: 25px;
-  background: var(--ba);
+  width: .6rem;
+  height: .6rem;
+  border-radius: 50%;
+  background: var(--r-bg);
   cursor: pointer;
 }
 
 .slider::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
-  background: var(--ba);
+  width: .6rem;
+  height: .6rem;
+  border-radius: 50%;
+  background: var(--r-bg);
   cursor: pointer;
 }
 
@@ -328,7 +346,7 @@ icon {
 
 /* When the checkbox is checked, add a background */
 .check-box input:checked ~ .checkmark {
-  background-color: var(--ba);
+  background-color: var(--pm);
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -358,4 +376,101 @@ icon {
 
 .scrolling-wrapper:empty{
 	display:none;
+}
+
+.form-check-input[type=checkbox]:checked {
+    background: var(--sh);
+}
+
+/* BELL  */
+.ring {
+  -webkit-animation: ring 4s .7s ease-in-out infinite;
+  -webkit-transform-origin: 50% 4px;
+  -moz-animation: ring 4s .7s ease-in-out infinite;
+  -moz-transform-origin: 50% 4px;
+  animation: ring 4s .7s ease-in-out infinite;
+}
+
+@-webkit-keyframes ring {
+  0% { -webkit-transform: rotateZ(0); }
+  1% { -webkit-transform: rotateZ(30deg); }
+  3% { -webkit-transform: rotateZ(-28deg); }
+  5% { -webkit-transform: rotateZ(34deg); }
+  7% { -webkit-transform: rotateZ(-32deg); }
+  9% { -webkit-transform: rotateZ(30deg); }
+  11% { -webkit-transform: rotateZ(-28deg); }
+  13% { -webkit-transform: rotateZ(26deg); }
+  15% { -webkit-transform: rotateZ(-24deg); }
+  17% { -webkit-transform: rotateZ(22deg); }
+  19% { -webkit-transform: rotateZ(-20deg); }
+  21% { -webkit-transform: rotateZ(18deg); }
+  23% { -webkit-transform: rotateZ(-16deg); }
+  25% { -webkit-transform: rotateZ(14deg); }
+  27% { -webkit-transform: rotateZ(-12deg); }
+  29% { -webkit-transform: rotateZ(10deg); }
+  31% { -webkit-transform: rotateZ(-8deg); }
+  33% { -webkit-transform: rotateZ(6deg); }
+  35% { -webkit-transform: rotateZ(-4deg); }
+  37% { -webkit-transform: rotateZ(2deg); }
+  39% { -webkit-transform: rotateZ(-1deg); }
+  41% { -webkit-transform: rotateZ(1deg); }
+
+  43% { -webkit-transform: rotateZ(0); }
+  100% { -webkit-transform: rotateZ(0); }
+}
+
+@-moz-keyframes ring {
+  0% { -moz-transform: rotate(0); }
+  1% { -moz-transform: rotate(30deg); }
+  3% { -moz-transform: rotate(-28deg); }
+  5% { -moz-transform: rotate(34deg); }
+  7% { -moz-transform: rotate(-32deg); }
+  9% { -moz-transform: rotate(30deg); }
+  11% { -moz-transform: rotate(-28deg); }
+  13% { -moz-transform: rotate(26deg); }
+  15% { -moz-transform: rotate(-24deg); }
+  17% { -moz-transform: rotate(22deg); }
+  19% { -moz-transform: rotate(-20deg); }
+  21% { -moz-transform: rotate(18deg); }
+  23% { -moz-transform: rotate(-16deg); }
+  25% { -moz-transform: rotate(14deg); }
+  27% { -moz-transform: rotate(-12deg); }
+  29% { -moz-transform: rotate(10deg); }
+  31% { -moz-transform: rotate(-8deg); }
+  33% { -moz-transform: rotate(6deg); }
+  35% { -moz-transform: rotate(-4deg); }
+  37% { -moz-transform: rotate(2deg); }
+  39% { -moz-transform: rotate(-1deg); }
+  41% { -moz-transform: rotate(1deg); }
+
+  43% { -moz-transform: rotate(0); }
+  100% { -moz-transform: rotate(0); }
+}
+
+@keyframes ring {
+  0% { transform: rotate(0); }
+  1% { transform: rotate(30deg); }
+  3% { transform: rotate(-28deg); }
+  5% { transform: rotate(34deg); }
+  7% { transform: rotate(-32deg); }
+  9% { transform: rotate(30deg); }
+  11% { transform: rotate(-28deg); }
+  13% { transform: rotate(26deg); }
+  15% { transform: rotate(-24deg); }
+  17% { transform: rotate(22deg); }
+  19% { transform: rotate(-20deg); }
+  21% { transform: rotate(18deg); }
+  23% { transform: rotate(-16deg); }
+  25% { transform: rotate(14deg); }
+  27% { transform: rotate(-12deg); }
+  29% { transform: rotate(10deg); }
+  31% { transform: rotate(-8deg); }
+  33% { transform: rotate(6deg); }
+  35% { transform: rotate(-4deg); }
+  37% { transform: rotate(2deg); }
+  39% { transform: rotate(-1deg); }
+  41% { transform: rotate(1deg); }
+
+  43% { transform: rotate(0); }
+  100% { transform: rotate(0); }
 }

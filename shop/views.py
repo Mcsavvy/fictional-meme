@@ -1,5 +1,4 @@
 from django.contrib import messages
-from django.views.decorators.cache import cache_page
 from globals.models import (
     Order,
     OrderItem, OrderItems,
@@ -9,72 +8,88 @@ from globals.models import (
     Coupon
 )
 from django.shortcuts import redirect
-from core.decorators import allowed_user, bind_request
+from core.decorators import (
+    allowed_user, bind_request,
+    ajax_requests
+)
 from django.contrib.auth.decorators import login_required
 from globals import render
 from django.http import JsonResponse
-from django.views.decorators.cache import cache_page
+from django.views import View
+from globals.decorators import Request
+from django.core import serializers
 
 
 # Create your views here.
-@bind_request("GET")
-def shop_page(request):
-    all_products = Product.objects.all()
-    if request.GET.get('ajax'):
+class ShopPage(View):
+    @Request.bind_method("GET")
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def ajaxGetShopInfo(self, request):
+        if not request.user.is_authenticated:
+            return JsonResponse({})
+        node = request.user.node
+        data = dict(
+            cart=len(node.get_ordered_items),
+            wish=len(node.get_wishes),
+            notification=len(node.get_notifications),
+        )
+        return JsonResponse(data)
+
+    @Request.ajax(ajax=False, view_func=ajaxGetShopInfo)
+    def get(self, request):
+        all_products = Product.objects.all()
+        if request.isAjax:
+            context = dict(
+                products=all_products,
+            )
+            return render(request, 'shop/shop-page.html', context)
+
+        filters = {
+            "category": None,
+            "max_price": None,
+            "min_price": None,
+            "featured_only": None,
+            "top_only": None,
+            "Brand": None,
+        }
+        for filter in filters:
+            filters[filter] = request.GET.get(filter)
+        if filters['max_price']:
+            all_products = all_products.filter(
+                price__lte=float(filters['max_price']),
+                price__gte=float(filters['min_price']),
+            )
+        if filters['featured_only'] == "":
+            all_products = all_products.filter(featured=True)
+        if filters['top_only'] == "":
+            all_products = all_products.filter(top_product=True)
+        if filters['category']:
+            all_products = all_products.filter(
+                categories__name=str(filters['category'])
+            )
+        if filters['Brand']:
+            all_products = all_products.filter(
+                brand__name=str(filters['Brand'])
+            )
+        max_price = max(
+            Products(
+                query=all_products
+            ).query.all_prices or Products().all_prices
+        )
+        min_price = min(
+            Products(
+                query=all_products
+            ).query.all_prices or Products().all_prices
+        )
         context = dict(
             products=all_products,
+            max_price=max_price,
+            min_price=min_price
         )
+
         return render(request, 'shop/shop-page.html', context)
-
-    filters = {
-        "category": None,
-        "max_price": None,
-        "min_price": None,
-        "featured_only": None,
-        "top_only": None,
-        "Brand": None,
-    }
-    for filter in filters:
-        filters[filter] = request.GET.get(filter)
-    if filters['max_price']:
-        all_products = all_products.filter(
-            price__lte=float(filters['max_price']),
-            price__gte=float(filters['min_price']),
-        )
-    if filters['featured_only'] == "":
-        all_products = all_products.filter(featured=True)
-    if filters['top_only'] == "":
-        all_products = all_products.filter(top_product=True)
-    if filters['category']:
-        all_products = all_products.filter(
-            categories__name=str(filters['category'])
-        )
-    if filters['Brand']:
-        all_products = all_products.filter(
-            brand__name=str(filters['Brand'])
-        )
-    max_price = max(
-        Products(
-            query=all_products
-        ).query.all_prices or Products().all_prices
-    )
-    min_price = min(
-        Products(
-            query=all_products
-        ).query.all_prices or Products().all_prices
-    )
-    for i in [
-        "category", "max_price", "min_price",
-        "featured_only", "top_only"
-    ]:
-        print(i + ": ", request.GET.get(i))
-    context = dict(
-        products=all_products,
-        max_price=max_price,
-        min_price=min_price
-    )
-
-    return render(request, 'shop/shop-page.html', context)
 
 
 @login_required(login_url='auth')
@@ -194,7 +209,8 @@ def checkout(request):
         i.save()
     return redirect('cart')
 
-
+@login_required(login_url='login')
+@allowed_user(allowed_roles=['customer'])
 def add_to_wish_list(request, itemId):
     if not request.user.is_authenticated:
         data = {"message": "Unauthorized user.", "level": "error"}

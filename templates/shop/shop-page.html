@@ -1,6 +1,7 @@
 {% extends 'layouts.html' %}{% block head %}{% load static %}{% load api %}
 <title>Shop::Soar Tech</title>
 <link rel="stylesheet" type="text/css" href="{% static 'css/products.css' %}">
+{% block fab_menu %}{% endblock %}
 {% endblock head %} {% block content %}
 
 <div class="container mt-4" id="shop-filters">
@@ -10,45 +11,43 @@
 	 	<div class="slidecontainer" id="price-range">
 		  <input type="range" min="{{min_price|floatformat:0}}" max="{{max_price|floatformat:0}}" value="{{max_price|floatformat:0}}" class="slider" id="max-price-range" name="max_price">
 		  <input type="range" min="1" max="{{min_price|floatformat:0}}" value="1" class="slider" id="min-price-range" name="min_price">
-		  <p class="font-weight-bold">
+		  <p class="font-weight-bold r-bg">
 		  	Max Price: {{currency}}<span id="max-price"></span>
 		  	&nbsp;&nbsp;
 		  	Min Price: {{currency}}<span id="min-price"></span>
 		  </p>
 		</div>
-		<div class="check-box">
-		  <label class="form-check-label font-size-16">
-		    Featured Products Only
-		    <input
+		<div class="form-check form-switch">
+		  <input
 			    class="form-check-input"
 			    type="checkbox"
 			    value=""
 			    id="featured-filter"
 			    name="featured_only"
 		  	/>
-		  	<span class="checkmark fas"></span>
+		  <label class="form-check-label r-bg" for="featured-filter">
+		  	Featured Products Only
 		  </label>
 		</div>
-		<div class="check-box">
-			<label class="form-check-label font-size-16" for="top-filter">
-		    Top Products Only
-		    <input
+		<div class="mt-2 form-check form-switch">
+		  <input
 			    class="form-check-input"
 			    type="checkbox"
 			    value=""
 			    id="top-filter"
 			    name="top_only"
 		  />
-		  <span class="checkmark fas"></span>
+		  <label class="form-check-label r-bg" for="top-filter">
+		  	Top Products Only
 		  </label>
 		</div>
-		<span class="dropdown-item gb" onclick="{
+		<span class="dropdown-item mt-2 rounded bd-r-bg-1" onclick="{
 			$(this).children('i.fas').toggleClass('fa-arrow-circle-down fa-times-circle')
 			$('#category-filters').slideToggle()}">
 		    Filter By Category&nbsp;
 		  <i class='fas fa-arrow-circle-down float-right' style="position: relative; top:5px"></i>
 		</span>
-	  <div class="dropdown-menu bg-bg my-1 input--menu" id="category-filters"
+	  <div class="dropdown-menu input--menu" id="category-filters"
 	  style="position: relative;" iref="input[name=category]">
 	    {% for cat in categories %}
 	    <span class="dropdown-item gb input--menu-object"
@@ -57,7 +56,7 @@
 	    </span>
 	    {% endfor %}
 	  </div>
-	  <span class="dropdown-item gb" onclick="{
+	  <span class="dropdown-item mt-1 rounded bd-r-bg-1" onclick="{
 	  	$(this).children('i.fas').toggleClass('fa-arrow-circle-down fa-times-circle')
 	  	$('#Brand--filters').slideToggle();}">
 	  	Filter By Brands&nbsp;
@@ -72,10 +71,10 @@
       {% endfor %}
     </div>
 	  <div class="d-flex justify-content-between mt-2">
-		  <button type="submit" class="btn col-auto rounded bd-ba-1 mr-2">
+		  <button type="submit" class="btn col-auto rounded bd-r-bg-1 mr-2">
 		  	Apply Filters
 		  </button>
-		  <a href="/shop" class="btn col-auto rounded bd-ba-1">
+		  <a href="/shop" class="btn col-auto rounded bd-r-bg-1">
 		  	Reset All Filters
 		  </a>
 		</div>
@@ -83,16 +82,12 @@
 </div>
 {% if is_mobile %}
 <div class="container-fluid mt-4">
-	{% for row in products|grid:"10&&200??spillover=True&&fillempty=EMPTY" %}
-	    {% if row %}
-	      <div class="scrolling-wrapper row flex-row flex-nowrap">
-	        {% for item in row %}
-	          {% if item != 'EMPTY' %}
-	             {% include 'partials/_shop-cards.html' %}
-	          {% endif %}
-	        {% endfor %}
-	      </div>
-	    {% endif %}
+	{% for row in products|grid:"10&&200??spillover=True" %}
+      <div class="scrolling-wrapper row flex-row flex-nowrap">
+        {% for item in row %}
+             {% include 'partials/_shop-cards.html' %}
+        {% endfor %}
+      </div>
 	{% endfor %}
 </div>
 {% else %}

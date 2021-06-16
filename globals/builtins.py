@@ -1,30 +1,22 @@
 from .template import builtins
 from .models import *
 import re
-from core.templatetags.theme import get
 import random
 
-@builtins.register("colour_list", timeout=0, resolve_dict=False)
-def foo(request):
-    colour_list = {}
-    for i in [
-        'dk', 'lt', 'pm', 'sc',
-        'bg', 'gb', 'ab', 'ba',
-        "dk-pm", "dk-sc",
-        "lt-pm", "lt-sc",
-        "pm-dk", "pm-lt",
-        "sc-dk", "sc-lt",
-        "glass", "shadow",
-        "shadow-glass",
-        "glass-shadow",
-    ]:
-        colour_list[i] = get(request.user.username, i)
-    return colour_list
+
+@builtins.register("colour_list", timeout=None, ajax=False)
+def colour_list(request):
+    return [
+        'bg', 'pm', 'sh', 'sc',
+        'r-bg', 'r-pm', 'r-sh', 'r-sc',
+        'lt-bg', 'lt-pm', 'lt-sh', 'lt-sc',
+        'dk-bg', 'dk-pm', 'dk-sh', 'dk-sc'
+    ]
 
 
 builtins.register(
     "site_info",
-    timeout=None
+    timeout=None,
 )(
     {
         "site_name": "Soar-Tech",
@@ -38,7 +30,11 @@ builtins.register(
 )
 
 
-@builtins.register("banners", timeout=None)
+@builtins.register(
+    "banners",
+    timeout=None,
+    ajax=False
+)
 def show_banner(request):
     accepted_urls = [r"^/?$", r"shop/?$"]
     for url in accepted_urls:
@@ -46,7 +42,11 @@ def show_banner(request):
             return Banner.objects.all()
 
 
-@builtins.register("filters", timeout=60 * 60)
+@builtins.register(
+    "filters",
+    timeout=60 * 60,
+    ajax=False
+)
 def filters(request):
     return {
         "categories": sorted(Categories().all_names),
@@ -54,11 +54,12 @@ def filters(request):
     }
 
 
-@builtins.register("notification", timeout=None)
-def notifications(request):
+@builtins.register("counters")
+def counters(request):
     default = {
-        "has_notification": False,
-        "notifications": []
+        "notifications": 0,
+        "cart_count": 0,
+        "wish_count": 0,
     }
     if not request.user.is_authenticated:
         return default
@@ -66,9 +67,9 @@ def notifications(request):
         node = Node.objects.get(user=request.user)
     except Node.DoesNotExist:
         return default
-    notifications = node.get_notifications
-    default['has_notification'] = bool(notifications)
-    default['notifications'] = notifications
+    default['notifications'] = len(node.get_notifications)
+    default['cart_count'] = len(node.get_ordered_items)
+    default['wish_count'] = len(node.get_wishes)
     return default
 
 
@@ -91,7 +92,11 @@ def user_agent(request):
     return default
 
 
-@builtins.register("available_coupons", timeout=60 * 60)
+@builtins.register(
+    "available_coupons",
+    timeout=60 * 60,
+    ajax=False
+)
 def get_unused_coupons(request):
     default = []
     if not request.user.is_authenticated:

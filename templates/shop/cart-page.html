@@ -4,31 +4,28 @@
 {% block content %}
 {% load api %}
 {% load static %}
+{% block fab_menu %}{% endblock %}
 {% if is_mobile %}
 <div class="container-fluid">
   <legend class="text-center ba">Cart</legend>
-  {% for row in cart|grid:"5&&20??spillover=True&&fillempty=EMPTY" %}
-    {% if row %}
-      <div class="scrolling-wrapper row flex-row flex-nowrap">
-        {% for order in row %}
-          {% if order != 'EMPTY' %}
-            {% with order as item %}
-              {% include 'partials/_cart-cards.html' %}
-            {% endwith %}
-          {% endif %}
-        {% endfor %}
-      </div>
-    {% endif %}
+  {% for row in cart|grid:"5&&20??spillover=True" %}
+    <div class="scrolling-wrapper row flex-row flex-nowrap">
+      {% for order in row %}
+          {% with order as item %}
+            {% include 'partials/_cart-cards.html' %}
+          {% endwith %}
+      {% endfor %}
+    </div>
   {% endfor %}
   {% if not cart %}
   <image src="{% static 'img/empty.svg' %}" class="w-100 ba">
   {% else %}
     <div class="d-flex justify-content-center">
-      <a href="{% url 'checkout' %}" class="btn bg-ba bg btn-rounded checkout-btn">
-        <span class="float-left ab mr-4">Total {{currency}}{{total|floatformat:2}}</span>
-        <span class="float-right">
+      <a href="{% url 'checkout' %}" class="btn bd-pm-1 bg btn-rounded checkout-btn">
+        <span class="float-left r-bg mr-4">Total {{currency}}{{total|floatformat:2}}</span>
+        <span class="float-right r-bg">
           Check out
-          <i class="fas fa-arrow-circle-right ab"></i>
+          <i class="fas fa-arrow-circle-right sc"></i>
         </span>
       </a>
     </div>
@@ -49,7 +46,7 @@
   <image src="{% static 'img/empty.svg' %}" class="w-100 ba">
   {% else %}
     <div class="d-flex justify-content-center">
-      <a href="{% url 'checkout' %}" class="btn bg-ba bg btn-rounded checkout-btn">
+      <a href="{% url 'checkout' %}" class="btn-rounded bd-pm-1">
         <span class="float-left ab mr-4">Total {{currency}}{{total|floatformat:2}}</span>
         <span class="float-right">
           Check out

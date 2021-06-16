@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import os
 import hashlib
-from django.utils.translation import ugettext_lazy as _
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -33,8 +32,7 @@ ALLOWED_HOSTS = ['*']
 def make_key(key, key_prefix, version):
     str2hash = key
     result = hashlib.md5(str2hash.encode())
-    return '%s:%s:%s' % (key_prefix, version, key)
-
+    return '%s:%s:%s' % (key_prefix, version, result.hexdigest())
 
 
 # Application definition
@@ -58,13 +56,15 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django_user_agents.middleware.UserAgentMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_pdb.middleware.PdbMiddleware'
+    'django_pdb.middleware.PdbMiddleware',
+    "ecom.middleware.AjaxRequest"
 ]
 
 ROOT_URLCONF = 'ecom.urls'
@@ -81,7 +81,6 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'ecom.context_processor.get_cart_and_wish_count',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -144,11 +143,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, 'pages', 'static')
-]
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -166,7 +162,7 @@ CACHES = {
         "KEY_PREFIX": "memcache",
         "VERSION": 1,
         "KEY_FUNCTION": make_key,
-        "TIMEOUT": "60",
+        "TIMEOUT": 60,
 
     },
     'dbcache': {
@@ -175,7 +171,7 @@ CACHES = {
         "KEY_PREFIX": "dbcache",
         "VERSION": 1,
         "KEY_FUNCTION": make_key,
-        "TIMEOUT": "60",
+        "TIMEOUT": 6.307e+7,
     },
     'filecache': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
@@ -183,7 +179,7 @@ CACHES = {
         "KEY_PREFIX": "filecache",
         "VERSION": 1,
         "KEY_FUNCTION": make_key,
-        "TIMEOUT": "60",
+        "TIMEOUT": 60,
     }
 }
 
